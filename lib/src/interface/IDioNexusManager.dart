@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
 import '../../dio_nexus.dart';
+import 'IResponseModel.dart';
 
 abstract class IDioNexusManager {
   IDioNexusManager({required BaseOptions options});
 
-  Future<R?> sendRequest<T extends IDioNexusNetworkModel<T>, R>(
+  Future<IResponseModel<R?>> sendRequest<T extends IDioNexusNetworkModel<T>, R>(
     String path, {
     Object? data,
     required T responseModel,

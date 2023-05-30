@@ -29,24 +29,27 @@ class _HomeViewState extends State<HomeView> {
       children: [
         ElevatedButton(
           onPressed: () async {
-            var response = await dioNexusManager.sendRequest<Users, Users>(
+            IResponseModel<Users?> response =
+                await dioNexusManager.sendRequest<Users, Users>(
               "api/users",
               requestType: RequestType.GET,
               responseModel: Users(),
             );
-            print(response?.total);
+            print(response.model);
+            print(response.statusCode);
           },
           child: const Text('Get User List'),
         ),
         ElevatedButton(
           onPressed: () async {
-            var response =
+            IResponseModel<dynamic> response =
                 await dioNexusManager.sendRequest<SingleUser, SingleUser>(
               "api/users/2",
               requestType: RequestType.GET,
               responseModel: SingleUser(),
             );
-            print(response.toString());
+            await Future.delayed(const Duration(seconds: 6));
+            print(response.errorMessage);
           },
           child: const Text('Get Single User'),
         )
