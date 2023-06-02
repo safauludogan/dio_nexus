@@ -18,3 +18,4 @@ export './src/interface/IDioNexusNetworkModel.dart';
 export './src/interface/IResponseModel.dart';
 
 export './src/model/enum/response_model.dart';
+export './src/utility/network_connectivity/network_connection.dart';

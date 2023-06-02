@@ -22,6 +22,5 @@ R? _modelResponseData<T extends IDioNexusNetworkModel<T>, R>(
   } catch (err) {
     CustomLogger(data: " $err \n\n $R CAN'T PARSE TO $responseData").show();
   }
-
   return null;
 }

@@ -16,8 +16,9 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     super.initState();
-    dioNexusManager =
-        DioNexusManager(options: BaseOptions(baseUrl: "https://reqres.in/"));
+    dioNexusManager = DioNexusManager(
+        options: BaseOptions(baseUrl: "https://reqres.in/"),
+        networkConnection: NetworkConnection(context: context));
   }
 
   @override
@@ -42,14 +43,13 @@ class _HomeViewState extends State<HomeView> {
         ),
         ElevatedButton(
           onPressed: () async {
-            IResponseModel<dynamic> response =
+            IResponseModel<SingleUser?> response =
                 await dioNexusManager.sendRequest<SingleUser, SingleUser>(
               "api/users/2",
               requestType: RequestType.GET,
               responseModel: SingleUser(),
             );
-            await Future.delayed(const Duration(seconds: 6));
-            print(response.errorMessage);
+            print(response.model.toString());
           },
           child: const Text('Get Single User'),
         )

@@ -6,13 +6,14 @@ import 'model/enum/request_type.dart';
 import 'package:flutter/foundation.dart';
 import 'model/enum/response_model.dart';
 import 'network/network_error.dart';
+import 'utility/network_connectivity/network_connection.dart';
 part 'network/network_model_parser.dart';
 
 class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
-  DioNexusManager({
-    required BaseOptions options,
-    this.onRefreshToken,
-  }) {
+  DioNexusManager(
+      {required BaseOptions options,
+      this.onRefreshToken,
+      this.networkConnection}) {
     this.options = options;
     (transformer as BackgroundTransformer).jsonDecodeCallback = parseJson;
     httpClientAdapter = HttpClientAdapter();
@@ -20,10 +21,13 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   }
 
   /// [onRefrestToken] when HttpStatus return unauthorized, you can call your refrestToken manager
-  Future Function()? onRefreshToken;
+  Future Function(DioError error)? onRefreshToken;
 
   /// [maxAttempts] When catch error(unauthorized or TieoutExc. etc.) try 3 request to server
   final int maxAttempts = 3;
+
+  /// When no internet connection, request again to server
+  NetworkConnection? networkConnection;
 
   @override
   Future<IResponseModel<R?>> sendRequest<T extends IDioNexusNetworkModel<T>, R>(
@@ -48,14 +52,13 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
           options: options,
           onSendProgress: onSendProgress);
       var _response = response.data;
+      print('$_response');
       if (response.data is String) {
         var _response = await parseJson(response.data);
       }
       var result = _modelResponseData<T, R>(responseModel, _response);
       return ResponseModel<R?>(result, response.statusCode!, null);
     } on DioError catch (err) {
-      print(err);
-
       return handleNetworkError<T, R>(err, path,
           data: data,
           responseModel: responseModel,
