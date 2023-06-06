@@ -13,7 +13,8 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   DioNexusManager(
       {required BaseOptions options,
       this.onRefreshToken,
-      this.networkConnection}) {
+      this.networkConnection,
+      this.maxNetworkTryCount = 3}) {
     this.options = options;
     (transformer as BackgroundTransformer).jsonDecodeCallback = parseJson;
     httpClientAdapter = HttpClientAdapter();
@@ -29,8 +30,16 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   /// When no internet connection, request again to server
   NetworkConnection? networkConnection;
 
+  /// This variable is used for no internet connection.
+  /// You can modify this counter when initializing [DioNexusManager].
+  /// When your internet connection is lost, you can try re-requesting up to 3 times.
+  int maxNetworkTryCount;
+
+  int networkTryCounter = 0;
+
   @override
-  Future<IResponseModel<R?>> sendRequest<T extends IDioNexusNetworkModel<T>, R>(
+  Future<IResponseModel<R?>?>
+      sendRequest<T extends IDioNexusNetworkModel<T>, R>(
     String path, {
     Object? data,
     required T responseModel,
@@ -52,7 +61,6 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
           options: options,
           onSendProgress: onSendProgress);
       var _response = response.data;
-      print('$_response');
       if (response.data is String) {
         var _response = await parseJson(response.data);
       }

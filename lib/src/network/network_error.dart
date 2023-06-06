@@ -5,7 +5,7 @@ import 'package:retry/retry.dart';
 import '../../dio_nexus.dart';
 
 extension DioNexusManagerExtension on DioNexusManager {
-  Future<IResponseModel<R?>>
+  Future<IResponseModel<R?>?>
       handleNetworkError<T extends IDioNexusNetworkModel<T>, R>(
     DioError error,
     String path, {
@@ -43,19 +43,29 @@ extension DioNexusManagerExtension on DioNexusManager {
       }
     } else {
       if (networkConnection != null) {
-        await networkConnection!.checkConnection(() async {
-          await sendRequest(
-            path,
-            requestType: requestType,
-            responseModel: responseModel,
-            cancelToken: cancelToken,
-            data: data,
-            onReceiveProgress: onReceiveProgress,
-            onSendProgress: onReceiveProgress,
-            options: options,
-            queryParameters: queryParameters,
-          );
-        });
+        var reRequest = await networkConnection!.checkConnection();
+        networkTryCounter++;
+        if (networkTryCounter >= maxNetworkTryCount && !reRequest) {
+          networkTryCounter = 0;
+          return ResponseModel<R?>(
+              null, error.response?.statusCode, error.error.toString());
+        }
+        return await sendRequest(
+          path,
+          requestType: requestType,
+          responseModel: responseModel,
+          cancelToken: cancelToken,
+          data: data,
+          onReceiveProgress: onReceiveProgress,
+          onSendProgress: onReceiveProgress,
+          options: options,
+          queryParameters: queryParameters,
+        );
+        /* print(result.toString());
+        print(result2.toString());
+
+        return ResponseModel<R?>(
+            result2 as R, error.response?.statusCode, error.error.toString());*/
       }
     }
     return ResponseModel<R?>(
