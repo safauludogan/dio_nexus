@@ -18,7 +18,8 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
     this.options = options;
     (transformer as BackgroundTransformer).jsonDecodeCallback = parseJson;
     httpClientAdapter = HttpClientAdapter();
-    this.options.connectTimeout = const Duration(seconds: 2);
+    // this.options.connectTimeout = const Duration(seconds: 2);
+    this.options.receiveTimeout = const Duration(seconds: 1);
   }
 
   /// [onRefrestToken] when HttpStatus return unauthorized, you can call your refrestToken manager
@@ -65,7 +66,7 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
         var _response = await parseJson(response.data);
       }
       var result = _modelResponseData<T, R>(responseModel, _response);
-      return ResponseModel<R?>(result, response.statusCode!, null);
+      return ResponseModel<R?>(result, response.statusCode!, null, null);
     } on DioError catch (err) {
       return handleNetworkError<T, R>(err, path,
           data: data,

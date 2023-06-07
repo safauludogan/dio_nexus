@@ -46,6 +46,20 @@ abstract class HomeViewmodel extends State<HomeView> {
     return response;
   }
 
+  Future<IResponseModel<Users?>?> getUsersWithDelay() async {
+    changeLoading();
+    IResponseModel<Users?>? response =
+        await dioNexusManager.sendRequest<Users, Users>(
+      "api/users?delay=5",
+      requestType: RequestType.GET,
+      responseModel: Users(),
+    );
+    print("Result User with Delay : ${response?.model}");
+    print("Dio error type : ${response?.dioErrorType}");
+    changeLoading();
+    return response;
+  }
+
   void changeLoading() {
     setState(() {
       isLoading = !isLoading;

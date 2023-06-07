@@ -23,6 +23,10 @@ class _HomeViewState extends HomeViewmodel {
                       ElevatedButton(
                         onPressed: () async => await getUser(),
                         child: const Text('Get Single User'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () async => await getUsersWithDelay(),
+                        child: const Text('Get Users With Delay'),
                       )
                     ],
                   )

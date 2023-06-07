@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/material.dart';
 import 'package:retry/retry.dart';
 import '../../dio_nexus.dart';
 
@@ -44,32 +43,34 @@ extension DioNexusManagerExtension on DioNexusManager {
     } else {
       if (networkConnection != null) {
         var _timeOut = false;
-        var retryRequest = await networkConnection!.checkInternetConnection(
+        var connectionResult = await networkConnection!.checkInternetConnection(
           (timeOut) {
             _timeOut = timeOut;
           },
         );
-        networkTryCounter++;
-        if ((networkTryCounter >= maxNetworkTryCount && !retryRequest) ||
-            _timeOut) {
-          networkTryCounter = 0;
-          return ResponseModel<R?>(
-              null, error.response?.statusCode, error.error.toString());
+        if (!connectionResult) {
+          networkTryCounter++;
+          if ((networkTryCounter >= maxNetworkTryCount && !connectionResult) ||
+              _timeOut) {
+            networkTryCounter = 0;
+            return ResponseModel<R?>(null, error.response?.statusCode,
+                error.error.toString(), error.type);
+          }
+          return await sendRequest(
+            path,
+            requestType: requestType,
+            responseModel: responseModel,
+            cancelToken: cancelToken,
+            data: data,
+            onReceiveProgress: onReceiveProgress,
+            onSendProgress: onReceiveProgress,
+            options: options,
+            queryParameters: queryParameters,
+          );
         }
-        return await sendRequest(
-          path,
-          requestType: requestType,
-          responseModel: responseModel,
-          cancelToken: cancelToken,
-          data: data,
-          onReceiveProgress: onReceiveProgress,
-          onSendProgress: onReceiveProgress,
-          options: options,
-          queryParameters: queryParameters,
-        );
       }
     }
     return ResponseModel<R?>(
-        null, error.response?.statusCode, error.error.toString());
+        null, error.response?.statusCode, error.error.toString(), error.type);
   }
 }
