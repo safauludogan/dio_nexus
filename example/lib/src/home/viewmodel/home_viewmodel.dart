@@ -12,7 +12,10 @@ abstract class HomeViewmodel extends State<HomeView> {
     super.initState();
     dioNexusManager = DioNexusManager(
         options: BaseOptions(baseUrl: "https://reqres.in/"),
-        networkConnection: NetworkConnection(context: context));
+        networkConnection: NetworkConnection(
+          context: context,
+          snackbarDuration: const Duration(seconds: 5),
+        ));
   }
 
   bool isLoading = false;

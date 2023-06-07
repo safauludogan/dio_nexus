@@ -43,9 +43,15 @@ extension DioNexusManagerExtension on DioNexusManager {
       }
     } else {
       if (networkConnection != null) {
-        var reRequest = await networkConnection!.checkConnection();
+        var _timeOut = false;
+        var retryRequest = await networkConnection!.checkInternetConnection(
+          (timeOut) {
+            _timeOut = timeOut;
+          },
+        );
         networkTryCounter++;
-        if (networkTryCounter >= maxNetworkTryCount && !reRequest) {
+        if ((networkTryCounter >= maxNetworkTryCount && !retryRequest) ||
+            _timeOut) {
           networkTryCounter = 0;
           return ResponseModel<R?>(
               null, error.response?.statusCode, error.error.toString());
@@ -61,11 +67,6 @@ extension DioNexusManagerExtension on DioNexusManager {
           options: options,
           queryParameters: queryParameters,
         );
-        /* print(result.toString());
-        print(result2.toString());
-
-        return ResponseModel<R?>(
-            result2 as R, error.response?.statusCode, error.error.toString());*/
       }
     }
     return ResponseModel<R?>(
