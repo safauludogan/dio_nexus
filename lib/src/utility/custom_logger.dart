@@ -13,7 +13,7 @@ class CustomLogger {
     _data = data;
   }
 
-  void show() {
+  void show(bool? printLog) {
     switch (_loggerLevel) {
       case LoggerLevel.Verbose:
         logger.v(_data);

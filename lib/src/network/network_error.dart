@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:dio_nexus/src/utility/custom_logger.dart';
 import 'package:retry/retry.dart';
 import '../../dio_nexus.dart';
 
@@ -76,6 +77,7 @@ extension DioNexusManagerExtension on DioNexusManager {
         }
       }
     }
+    CustomLogger(data: error.toString()).show(printLogsDebugMode ?? false);
     NetworkExceptions dioException = NetworkExceptions.getDioException(error);
     return ResponseModel<R?>(
         null,

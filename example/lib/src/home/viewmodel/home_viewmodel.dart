@@ -58,7 +58,7 @@ abstract class HomeViewmodel extends State<HomeView> {
     changeLoading();
     IResponseModel<Users?>? response =
         await dioNexusManager.sendRequest<Users, Users>(
-      "api/users?delay=5",
+      "api/users?delay=2",
       requestType: RequestType.GET,
       responseModel: Users(),
     );

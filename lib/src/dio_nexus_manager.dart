@@ -89,6 +89,6 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   }
 
   void _addLogInterceptor() {
-    if (printLogsDebugMode == true) interceptors.add(LogInterceptor());
+    if (printLogsDebugMode ?? false) interceptors.add(LogInterceptor());
   }
 }

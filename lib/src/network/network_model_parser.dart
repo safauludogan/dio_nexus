@@ -17,10 +17,10 @@ R? _modelResponseData<T extends IDioNexusNetworkModel<T>, R>(
     } else if (responseData is Map<String, dynamic>) {
       return responseModel.fromJson(responseData) as R;
     } else {
-      CustomLogger(data: "$responseData cannot be parsed").show();
+      CustomLogger(data: "$responseData cannot be parsed").show(false);
     }
   } catch (err) {
-    CustomLogger(data: " $err \n\n $R CAN'T PARSE TO $responseData").show();
+    CustomLogger(data: " $err \n\n $R CAN'T PARSE TO $responseData").show(false);
   }
   return null;
 }
