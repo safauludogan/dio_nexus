@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:logger/logger.dart';
 
-import '../model/enum/logger_type.dart';
+import 'enum/logger_type.dart';
 
 @immutable
 class CustomLogger {

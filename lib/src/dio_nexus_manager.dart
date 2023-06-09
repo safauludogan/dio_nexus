@@ -2,24 +2,30 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:dio_nexus/src/utility/custom_logger.dart';
 import 'interface/index.dart';
-import 'model/enum/request_type.dart';
+import 'utility/enum/request_type.dart';
 import 'package:flutter/foundation.dart';
-import 'model/enum/response_model.dart';
+import 'model/response_model.dart';
 import 'network/network_error.dart';
+import 'network/network_interceptor.dart';
 import 'utility/network_connectivity/network_connection.dart';
 part 'network/network_model_parser.dart';
 
 class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   DioNexusManager(
       {required BaseOptions options,
+      Interceptor? interceptor,
       this.onRefreshToken,
       this.networkConnection,
-      this.maxNetworkTryCount = 5}) {
+      this.maxNetworkTryCount = 5})
+      : assert(options.headers.containsKey(Headers.contentTypeHeader),
+            'Content-Type header is required') {
     this.options = options;
     (transformer as BackgroundTransformer).jsonDecodeCallback = parseJson;
     httpClientAdapter = HttpClientAdapter();
     // this.options.connectTimeout = const Duration(seconds: 2);
     this.options.receiveTimeout = const Duration(seconds: 1);
+
+    interceptors.add(networkInterceptor());
   }
 
   /// [onRefrestToken] when HttpStatus return unauthorized, you can call your refrestToken manager
@@ -63,10 +69,10 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
           onSendProgress: onSendProgress);
       var _response = response.data;
       if (response.data is String) {
-        var _response = await parseJson(response.data);
+        _response = await parseJson(response.data);
       }
       var result = _modelResponseData<T, R>(responseModel, _response);
-      return ResponseModel<R?>(result, response.statusCode!, null, null);
+      return ResponseModel<R?>(result, null);
     } on DioError catch (err) {
       return handleNetworkError<T, R>(err, path,
           data: data,

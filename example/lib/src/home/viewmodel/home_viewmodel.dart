@@ -1,5 +1,6 @@
 import 'package:dio_nexus/dio_nexus.dart';
 import 'package:flutter/material.dart';
+import 'package:network_manager_test/src/home/model/register.dart';
 
 import '../model/single_user_model.dart';
 import '../model/users_model.dart';
@@ -11,7 +12,10 @@ abstract class HomeViewmodel extends State<HomeView> {
   void initState() {
     super.initState();
     dioNexusManager = DioNexusManager(
-        options: BaseOptions(baseUrl: "https://reqres.in/"),
+        options: BaseOptions(
+          baseUrl: "https://reqres.in/",
+          headers: {'Content-type': 'application/json'},
+        ),
         networkConnection: NetworkConnection(
           context: context,
           snackbarDuration: const Duration(seconds: 5),
@@ -28,7 +32,7 @@ abstract class HomeViewmodel extends State<HomeView> {
       requestType: RequestType.GET,
       responseModel: Users(),
     );
-    print("Result Users : ${response?.model}");
+    print("Register : ${response?.toString()}");
     changeLoading();
     return response;
   }
@@ -41,7 +45,7 @@ abstract class HomeViewmodel extends State<HomeView> {
       requestType: RequestType.GET,
       responseModel: SingleUser(),
     );
-    print("Result Single User : ${response?.model}");
+    print("Register : ${response?.toString()}");
     changeLoading();
     return response;
   }
@@ -54,8 +58,20 @@ abstract class HomeViewmodel extends State<HomeView> {
       requestType: RequestType.GET,
       responseModel: Users(),
     );
-    print("Result User with Delay : ${response?.model}");
-    print("Dio error type : ${response?.dioErrorType}");
+    print("Register : ${response?.toString()}");
+    changeLoading();
+    return response;
+  }
+
+  Future<IResponseModel<Register?>?> registerUnsuccessful() async {
+    changeLoading();
+    IResponseModel<Register?>? response =
+        await dioNexusManager.sendRequest<Register, Register>("api/register",
+            requestType: RequestType.POST,
+            responseModel: Register(),
+            data: Register(email: 'sydney@fife'));
+    print("Register : ${response?.toString()}");
+
     changeLoading();
     return response;
   }

@@ -53,8 +53,14 @@ extension DioNexusManagerExtension on DioNexusManager {
           if ((networkTryCounter >= maxNetworkTryCount && !connectionResult) ||
               _timeOut) {
             networkTryCounter = 0;
-            return ResponseModel<R?>(null, error.response?.statusCode,
-                error.error.toString(), error.type);
+            return ResponseModel<R?>(
+                null,
+                ErrorModel(
+                    error.response?.statusCode,
+                    NetworkExceptions.getErrorMessage(
+                            NetworkExceptions.getDioException(error))
+                        .toString(),
+                    NetworkExceptions.getDioException(error)));
           }
           return await sendRequest(
             path,
@@ -70,7 +76,12 @@ extension DioNexusManagerExtension on DioNexusManager {
         }
       }
     }
+    print(error.response?.data.toString());
+    String? value = NetworkExceptions.getErrorMessage(
+        NetworkExceptions.getDioException(error));
     return ResponseModel<R?>(
-        null, error.response?.statusCode, error.error.toString(), error.type);
+        null,
+        ErrorModel(error.response?.statusCode, value,
+            NetworkExceptions.getDioException(error)));
   }
 }

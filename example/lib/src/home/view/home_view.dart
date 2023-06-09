@@ -27,7 +27,11 @@ class _HomeViewState extends HomeViewmodel {
                       ElevatedButton(
                         onPressed: () async => await getUsersWithDelay(),
                         child: const Text('Get Users With Delay'),
-                      )
+                      ),
+                      ElevatedButton(
+                        onPressed: () async => await registerUnsuccessful(),
+                        child: const Text('Register Unsuccessful'),
+                      ),
                     ],
                   )
                 : const CircularProgressIndicator()));
