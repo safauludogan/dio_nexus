@@ -76,12 +76,10 @@ extension DioNexusManagerExtension on DioNexusManager {
         }
       }
     }
-    print(error.response?.data.toString());
-    String? value = NetworkExceptions.getErrorMessage(
-        NetworkExceptions.getDioException(error));
+    NetworkExceptions dioException = NetworkExceptions.getDioException(error);
     return ResponseModel<R?>(
         null,
-        ErrorModel(error.response?.statusCode, value,
-            NetworkExceptions.getDioException(error)));
+        ErrorModel(error.response?.statusCode,
+            NetworkExceptions.getErrorMessage(dioException), dioException));
   }
 }

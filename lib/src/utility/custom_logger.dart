@@ -5,9 +5,9 @@ import 'enum/logger_type.dart';
 
 @immutable
 class CustomLogger {
-  late LoggerLevel _loggerLevel;
-  late String _data;
-  var logger = Logger();
+  late final LoggerLevel _loggerLevel;
+  late final String _data;
+  final Logger logger = Logger();
   CustomLogger({required String data, LoggerLevel? loggerLevel}) {
     _loggerLevel = loggerLevel ?? LoggerLevel.Error;
     _data = data;

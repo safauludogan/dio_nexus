@@ -16,16 +16,16 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
       Interceptor? interceptor,
       this.onRefreshToken,
       this.networkConnection,
+      this.printLogsDebugMode = false,
       this.maxNetworkTryCount = 5})
       : assert(options.headers.containsKey(Headers.contentTypeHeader),
             'Content-Type header is required') {
     this.options = options;
     (transformer as BackgroundTransformer).jsonDecodeCallback = parseJson;
     httpClientAdapter = HttpClientAdapter();
-    // this.options.connectTimeout = const Duration(seconds: 2);
-    this.options.receiveTimeout = const Duration(seconds: 1);
 
     interceptors.add(networkInterceptor());
+    _addLogInterceptor();
   }
 
   /// [onRefrestToken] when HttpStatus return unauthorized, you can call your refrestToken manager
@@ -33,6 +33,8 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
 
   /// [maxAttempts] When catch error(unauthorized or TieoutExc. etc.) try 3 request to server
   final int maxAttempts = 3;
+
+  final bool? printLogsDebugMode;
 
   /// When no internet connection, request again to server
   NetworkConnection? networkConnection;
@@ -84,5 +86,9 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
           onSendProgress: onSendProgress,
           onReceiveProgress: onReceiveProgress);
     }
+  }
+
+  void _addLogInterceptor() {
+    if (printLogsDebugMode == true) interceptors.add(LogInterceptor());
   }
 }

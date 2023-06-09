@@ -12,6 +12,7 @@ abstract class HomeViewmodel extends State<HomeView> {
   void initState() {
     super.initState();
     dioNexusManager = DioNexusManager(
+        printLogsDebugMode: false,
         options: BaseOptions(
           baseUrl: "https://reqres.in/",
           headers: {'Content-type': 'application/json'},
@@ -25,15 +26,18 @@ abstract class HomeViewmodel extends State<HomeView> {
   bool isLoading = false;
 
   Future<IResponseModel<Users?>?> getUserList() async {
-    changeLoading();
-    IResponseModel<Users?>? response =
-        await dioNexusManager.sendRequest<Users, Users>(
-      "api/users",
-      requestType: RequestType.GET,
-      responseModel: Users(),
-    );
-    print("Register : ${response?.toString()}");
-    changeLoading();
+    IResponseModel<Users?>? response;
+    try {
+      changeLoading();
+      response = await dioNexusManager.sendRequest<Users, Users>(
+        "api/users",
+        requestType: RequestType.GET,
+        responseModel: Users(),
+      );
+      print("Register : ${response?.toString()}");
+    } finally {
+      changeLoading();
+    }
     return response;
   }
 
