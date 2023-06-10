@@ -1,13 +1,10 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:dio_nexus/src/utility/custom_logger.dart';
-import 'interface/index.dart';
-import 'utility/enum/request_type.dart';
+import 'package:dio_nexus/src/utility/network_connectivity/network_connection.dart';
 import 'package:flutter/foundation.dart';
-import 'model/response_model.dart';
-import 'network/network_error.dart';
-import 'network/network_interceptor.dart';
-import 'utility/network_connectivity/network_connection.dart';
+import '../dio_nexus.dart';
+
 part 'network/network_model_parser.dart';
 
 class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
@@ -73,7 +70,8 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
       if (response.data is String) {
         _response = await parseJson(response.data);
       }
-      var result = _modelResponseData<T, R>(responseModel, _response);
+      var result = _modelResponseData<T, R>(
+          responseModel, _response, printLogsDebugMode);
       return ResponseModel<R?>(result, null);
     } on DioError catch (err) {
       return handleNetworkError<T, R>(err, path,

@@ -5,22 +5,24 @@ Map<String, dynamic> _parseAndDecode(String response) {
   return jsonDecode(response) as Map<String, dynamic>;
 }
 
-Future<Map<String, dynamic>> parseJson(String text) {
-  return compute(_parseAndDecode, text);
+Future<Map<String, dynamic>> parseJson(String body) {
+  return compute(_parseAndDecode, body);
 }
 
 R? _modelResponseData<T extends IDioNexusNetworkModel<T>, R>(
-    T responseModel, dynamic responseData) {
+    T responseModel, dynamic responseData, bool? printLogsDebugMode) {
   try {
     if (responseData is List) {
       return responseData.map((e) => responseModel.fromJson(e)).toList() as R;
     } else if (responseData is Map<String, dynamic>) {
       return responseModel.fromJson(responseData) as R;
     } else {
-      CustomLogger(data: "$responseData cannot be parsed").show(false);
+      CustomLogger(data: "$responseData cannot be parsed")
+          .show(printLogsDebugMode ?? false);
     }
   } catch (err) {
-    CustomLogger(data: " $err \n\n $R CAN'T PARSE TO $responseData").show(false);
+    CustomLogger(data: " $err \n\n $R CAN'T PARSE TO $responseData")
+        .show(printLogsDebugMode ?? false);
   }
   return null;
 }
