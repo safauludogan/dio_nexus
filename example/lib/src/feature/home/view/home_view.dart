@@ -1,9 +1,8 @@
-import 'package:dio_nexus/dio_nexus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../core/utility/network/network_error_resolver.dart';
-import '../model/users_model.dart';
-import '../cubit/home_cubit.dart';
+import '../../viewmodel/home_viewmodel.dart';
+import 'single_user_delay_widget.dart';
+import 'single_user_widget.dart';
+import 'user_list_widget.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -11,75 +10,55 @@ class HomeView extends StatefulWidget {
   State<HomeView> createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
-  late HomeCubit homeCubit;
-  @override
-  void initState() {
-    super.initState();
-    homeCubit = BlocProvider.of<HomeCubit>(context);
-  }
-
+class _HomeViewState extends HomeViewModel {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(
           children: [
-            ElevatedButton(
-              onPressed: () async => await homeCubit.getUserList(),
-              child: const Text('Get User List'),
+            Wrap(
+              children: [
+                ElevatedButton(
+                  onPressed: () async => await homeUsersCubit.getUserList(),
+                  child: const Text('Get User List'),
+                ),
+                const SizedBox(width: 10),
+                ElevatedButton(
+                  onPressed: () async =>
+                      await homeSingleUserCubit.getUserList(),
+                  child: const Text('Get Single User'),
+                ),
+                const SizedBox(width: 10),
+                ElevatedButton(
+                  onPressed: () async =>
+                      await homeUserDelayCubit.getUserDelayList(),
+                  child: const Text('Get Users With Delay'),
+                ),
+                const SizedBox(width: 10),
+                ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('Register Unsuccessful'),
+                ),
+              ],
             ),
             Expanded(
-              child: BlocBuilder<HomeCubit, ResultState<Users>>(
-                builder: (BuildContext context, ResultState<Users> state) {
-                  return state.when(
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator()),
-                    idle: () => const Center(child: Text('Henüz yok')),
-                    data: (Users data) =>
-                        Center(child: Text(data.data.toString())),
-                    error: (NetworkExceptions error) {
-                      return NetworkErrorResolver(error).errorWidget();
-                    },
-                  );
-                },
+                child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  UserListWidget(homeUsersCubit: homeUsersCubit),
+                  const Divider(color: Colors.red, thickness: 1.5),
+                  SingleUserWidget(homeSingleUserCubit: homeSingleUserCubit),
+                  const Divider(color: Colors.red, thickness: 1.5),
+                  SingleWithDelayWidget(homeUserDelayCubit: homeUserDelayCubit),
+                ],
               ),
-            ),
+            )),
           ],
         ),
       ),
     );
   }
 }
-
-
-/*
- @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        body: Center(
-            child: isLoading == false
-                ? Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () async => await getUserList(),
-                        child: const Text('Get User List'),
-                      ),
-                      ElevatedButton(
-                        onPressed: () async => await getUser(),
-                        child: const Text('Get Single User'),
-                      ),
-                      ElevatedButton(
-                        onPressed: () async => await getUsersWithDelay(),
-                        child: const Text('Get Users With Delay'),
-                      ),
-                      ElevatedButton(
-                        onPressed: () async => await registerUnsuccessful(),
-                        child: const Text('Register Unsuccessful'),
-                      ),
-                    ],
-                  )
-                : const CircularProgressIndicator()));
-  }
-*/

@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:dio_nexus/dio_nexus.dart';
+
+import '../utility/custom_logger.dart';
 part 'network_exceptions.freezed.dart';
 
 @freezed
@@ -57,7 +59,9 @@ abstract class NetworkExceptions with _$NetworkExceptions {
 
   const factory NetworkExceptions.unexpectedError() = UnexpectedError;
 
-  static NetworkExceptions getDioException(dynamic error) {
+  static NetworkExceptions getDioException(
+      dynamic error, bool? printLogsDebugMode) {
+    CustomLogger(data: error.toString()).show(printLogsDebugMode ?? false);
     if (error is Exception) {
       try {
         NetworkExceptions networkExceptions;
@@ -174,7 +178,7 @@ abstract class NetworkExceptions with _$NetworkExceptions {
         exceptionReason = reason ?? "Bad request";
       },
       unauthorisedRequest: (String? reason) {
-        exceptionReason =reason ??  "Unauthorised request";
+        exceptionReason = reason ?? "Unauthorised request";
       },
       unexpectedError: () {
         exceptionReason = "Unexpected error occurred";

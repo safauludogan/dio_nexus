@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:dio_nexus/src/utility/custom_logger.dart';
 import 'package:retry/retry.dart';
 import '../../dio_nexus.dart';
 
@@ -43,40 +42,49 @@ extension DioNexusManagerExtension on DioNexusManager {
       }
     } else {
       if (networkConnection != null) {
-        var _timeOut = false;
+        bool _timeOut = false;
+        bool _retry = false;
         var connectionResult = await networkConnection!.checkInternetConnection(
           (timeOut) {
             _timeOut = timeOut;
           },
+          (retry) {
+            _retry = retry;
+          },
         );
-        networkTryCounter++;
-        if ((networkTryCounter >= maxNetworkTryCount && !connectionResult) ||
-            _timeOut) {
-          networkTryCounter = 0;
-          return ResponseModel<R?>(
-              null,
-              ErrorModel(
-                  error.response?.statusCode,
-                  NetworkExceptions.getErrorMessage(
-                          NetworkExceptions.getDioException(error))
-                      .toString(),
-                  NetworkExceptions.getDioException(error)));
+        if (!connectionResult || _retry) {
+          networkTryCounter++;
+          if ((networkTryCounter >= maxNetworkTryCount && !connectionResult) ||
+              _timeOut) {
+            networkTryCounter = 0;
+
+            return ResponseModel<R?>(
+                null,
+                ErrorModel(
+                    error.response?.statusCode,
+                    NetworkExceptions.getErrorMessage(
+                            NetworkExceptions.getDioException(
+                                error, printLogsDebugMode))
+                        .toString(),
+                    NetworkExceptions.getDioException(
+                        error, printLogsDebugMode)));
+          }
+          return await sendRequest(
+            path,
+            requestType: requestType,
+            responseModel: responseModel,
+            cancelToken: cancelToken,
+            data: data,
+            onReceiveProgress: onReceiveProgress,
+            onSendProgress: onReceiveProgress,
+            options: options,
+            queryParameters: queryParameters,
+          );
         }
-        return await sendRequest(
-          path,
-          requestType: requestType,
-          responseModel: responseModel,
-          cancelToken: cancelToken,
-          data: data,
-          onReceiveProgress: onReceiveProgress,
-          onSendProgress: onReceiveProgress,
-          options: options,
-          queryParameters: queryParameters,
-        );
       }
     }
-    CustomLogger(data: error.toString()).show(printLogsDebugMode ?? false);
-    NetworkExceptions dioException = NetworkExceptions.getDioException(error);
+    NetworkExceptions dioException =
+        NetworkExceptions.getDioException(error, printLogsDebugMode);
     return ResponseModel<R?>(
         null,
         ErrorModel(error.response?.statusCode,

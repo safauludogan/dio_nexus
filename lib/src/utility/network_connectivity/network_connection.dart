@@ -29,7 +29,7 @@ class NetworkConnection {
   }
 
   Future<bool> checkInternetConnection(
-      void Function(bool timeOut) timeOut) async {
+      void Function(bool timeOut) timeOut, Function(bool retry) onRetry) async {
     final complater = Completer<bool>();
 
     var connectionResult =
@@ -67,6 +67,7 @@ class NetworkConnection {
           label: label ?? StringConstants.networkConnectionTryAgain,
           onPressed: () async {
             await Future.delayed(const Duration(milliseconds: 1000));
+            onRetry.call(true);
             var connectionResult = await _internetConnectionManager
                 .checkInternetConnectionOneTimes();
             if (connectionResult == ConnectionResult.on) {
