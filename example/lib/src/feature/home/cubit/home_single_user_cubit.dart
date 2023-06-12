@@ -26,32 +26,4 @@ class HomeSingleUserCubit extends Cubit<ResultState<SingleUser>> {
       emit(const ResultState.idle());
     }
   }
-
-  /*
-
-  Future<IResponseModel<Users?>?> getUsersWithDelay() async {
-    changeLoading();
-    IResponseModel<Users?>? response =
-        await dioNexusManager.sendRequest<Users, Users>(
-      "api/users?delay=2",
-      requestType: RequestType.GET,
-      responseModel: Users(),
-    );
-    print("getUsersWithDelay : ${response?.toString()}");
-    changeLoading();
-    return response;
-  }
-
-  Future<IResponseModel<Register?>?> registerUnsuccessful() async {
-    changeLoading();
-    IResponseModel<Register?>? response =
-        await dioNexusManager.sendRequest<Register, Register>("api/register",
-            requestType: RequestType.POST,
-            responseModel: Register(),
-            data: Register(email: 'sydney@fife'));
-    print("registerUnsuccessful : ${response?.toString()}");
-
-    changeLoading();
-    return response;
-  }*/
 }

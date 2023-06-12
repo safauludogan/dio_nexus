@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:network_manager_test/src/feature/home/view/register_unsuccess_widget.dart';
 import '../../viewmodel/home_viewmodel.dart';
 import 'single_user_delay_widget.dart';
 import 'single_user_widget.dart';
@@ -37,7 +38,8 @@ class _HomeViewState extends HomeViewModel {
                 ),
                 const SizedBox(width: 10),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async =>
+                      homeRegisterUnSuccessCubit.getUserList(),
                   child: const Text('Register Unsuccessful'),
                 ),
               ],
@@ -53,6 +55,9 @@ class _HomeViewState extends HomeViewModel {
                   SingleUserWidget(homeSingleUserCubit: homeSingleUserCubit),
                   const Divider(color: Colors.red, thickness: 1.5),
                   SingleWithDelayWidget(homeUserDelayCubit: homeUserDelayCubit),
+                  const Divider(color: Colors.red, thickness: 1.5),
+                  RegisterUnSuccessWidget(
+                      homeRegisterUnSuccessCubit: homeRegisterUnSuccessCubit)
                 ],
               ),
             )),
