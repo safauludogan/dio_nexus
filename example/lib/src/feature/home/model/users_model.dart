@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dio_nexus/dio_nexus.dart';
 
-import 'data.dart';
+import 'data_model.dart';
 import 'support.dart';
 
 class Users extends IDioNexusNetworkModel<Users> {
@@ -9,7 +9,7 @@ class Users extends IDioNexusNetworkModel<Users> {
   int? perPage;
   int? total;
   int? totalPages;
-  List<Data>? data;
+  List<DataModel>? data;
   Support? support;
 
   Users(
@@ -26,9 +26,9 @@ class Users extends IDioNexusNetworkModel<Users> {
     total = json['total'];
     totalPages = json['total_pages'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <DataModel>[];
       json['data'].forEach((v) {
-        data!.add(Data.fromJson(v));
+        data!.add(DataModel.fromJson(v));
       });
     }
     support =

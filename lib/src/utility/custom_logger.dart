@@ -14,6 +14,7 @@ class CustomLogger {
   }
 
   void show(bool? printLog) {
+    if (printLog==null || !printLog) return;
     switch (_loggerLevel) {
       case LoggerLevel.Verbose:
         logger.v(_data);

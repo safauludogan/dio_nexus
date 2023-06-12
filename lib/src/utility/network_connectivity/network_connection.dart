@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import '../../constants/string_constants.dart';
 import 'internet_connection_manager.dart';
 
-typedef CheckConnectionCallback = Future Function(Future<bool> isRetry);
-
 class NetworkConnection {
   late IInternetConnectionManager _internetConnectionManager;
 
@@ -38,7 +36,7 @@ class NetworkConnection {
         await _internetConnectionManager.checkInternetConnectionOneTimes();
     if (connectionResult == ConnectionResult.on) {
       complater.complete(true);
-    } else if(connectionResult == ConnectionResult.off && context.mounted){
+    } else if (connectionResult == ConnectionResult.off && context.mounted) {
       ScaffoldMessenger.of(context).removeCurrentSnackBar();
 
       final snackBar = SnackBar(
@@ -50,7 +48,7 @@ class NetworkConnection {
           //? When there is no click on the "Retry" button, we will timeout the request within 5 seconds.
           //? When the Snackbar is visible, this timeout will be reset.
           if (_timer != null) _timer?.cancel();
-          int start = _defaultSecond;
+          int start = snackbarDuration?.inSeconds ?? _defaultSecond;
           _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
             if (start == 0) {
               timeOut.call(true);

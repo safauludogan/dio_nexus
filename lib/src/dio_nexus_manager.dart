@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:dio_nexus/src/utility/custom_logger.dart';
-import 'package:dio_nexus/src/utility/network_connectivity/network_connection.dart';
 import 'package:flutter/foundation.dart';
 import '../dio_nexus.dart';
 
@@ -26,19 +25,24 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   }
 
   /// [onRefrestToken] when HttpStatus return unauthorized, you can call your refrestToken manager
+  @override
   Future Function(DioError error)? onRefreshToken;
 
   /// [maxAttempts] When catch error(unauthorized or TieoutExc. etc.) try 3 request to server
+  @override
   final int maxAttempts = 3;
 
+  @override
   final bool? printLogsDebugMode;
 
   /// When no internet connection, request again to server
+  @override
   NetworkConnection? networkConnection;
 
   /// This variable is used for no internet connection.
   /// You can modify this counter when initializing [DioNexusManager].
   /// When your internet connection is lost, you can try re-requesting up to 5 times.
+   @override
   int maxNetworkTryCount;
 
   int networkTryCounter = 0;

@@ -18,7 +18,8 @@ dependencies:
   dio_nexus:
        path: ../
   dio: ^5.1.2
-
+  flutter_bloc: ^8.1.3
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter  

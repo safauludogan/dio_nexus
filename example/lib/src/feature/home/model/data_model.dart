@@ -1,13 +1,13 @@
-class Data {
+class DataModel {
   int? id;
   String? email;
   String? firstName;
   String? lastName;
   String? avatar;
 
-  Data({this.id, this.email, this.firstName, this.lastName, this.avatar});
+  DataModel({this.id, this.email, this.firstName, this.lastName, this.avatar});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  DataModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     email = json['email'];
     firstName = json['first_name'];

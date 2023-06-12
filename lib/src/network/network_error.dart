@@ -49,32 +49,30 @@ extension DioNexusManagerExtension on DioNexusManager {
             _timeOut = timeOut;
           },
         );
-        if (!connectionResult) {
-          networkTryCounter++;
-          if ((networkTryCounter >= maxNetworkTryCount && !connectionResult) ||
-              _timeOut) {
-            networkTryCounter = 0;
-            return ResponseModel<R?>(
-                null,
-                ErrorModel(
-                    error.response?.statusCode,
-                    NetworkExceptions.getErrorMessage(
-                            NetworkExceptions.getDioException(error))
-                        .toString(),
-                    NetworkExceptions.getDioException(error)));
-          }
-          return await sendRequest(
-            path,
-            requestType: requestType,
-            responseModel: responseModel,
-            cancelToken: cancelToken,
-            data: data,
-            onReceiveProgress: onReceiveProgress,
-            onSendProgress: onReceiveProgress,
-            options: options,
-            queryParameters: queryParameters,
-          );
+        networkTryCounter++;
+        if ((networkTryCounter >= maxNetworkTryCount && !connectionResult) ||
+            _timeOut) {
+          networkTryCounter = 0;
+          return ResponseModel<R?>(
+              null,
+              ErrorModel(
+                  error.response?.statusCode,
+                  NetworkExceptions.getErrorMessage(
+                          NetworkExceptions.getDioException(error))
+                      .toString(),
+                  NetworkExceptions.getDioException(error)));
         }
+        return await sendRequest(
+          path,
+          requestType: requestType,
+          responseModel: responseModel,
+          cancelToken: cancelToken,
+          data: data,
+          onReceiveProgress: onReceiveProgress,
+          onSendProgress: onReceiveProgress,
+          options: options,
+          queryParameters: queryParameters,
+        );
       }
     }
     CustomLogger(data: error.toString()).show(printLogsDebugMode ?? false);

@@ -1,10 +1,10 @@
 import 'package:dio_nexus/dio_nexus.dart';
 
-import 'data.dart';
 import 'support.dart';
+import 'data_model.dart';
 
 class SingleUser extends IDioNexusNetworkModel<SingleUser> {
-  Data? data;
+  DataModel? data;
   Support? support;
 
   SingleUser({
@@ -13,7 +13,7 @@ class SingleUser extends IDioNexusNetworkModel<SingleUser> {
   });
 
   SingleUser copyWith({
-    Data? data,
+    DataModel? data,
     Support? support,
   }) {
     return SingleUser(
@@ -34,7 +34,7 @@ class SingleUser extends IDioNexusNetworkModel<SingleUser> {
     return SingleUser(
       data: json['data'] == null
           ? null
-          : Data.fromJson(json['data'] as Map<String, dynamic>),
+          : DataModel.fromJson(json['data'] as Map<String, dynamic>),
       support: json['support'] == null
           ? null
           : Support.fromJson(json['support'] as Map<String, dynamic>),

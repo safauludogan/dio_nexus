@@ -7,7 +7,6 @@ export 'package:dio/src/form_data.dart';
 export 'package:dio/src/multipart_file.dart';
 export 'package:dio/src/options.dart';
 
-
 export 'src/utility/enum/request_type.dart';
 
 export './src/interface/index.dart';
@@ -23,5 +22,7 @@ export 'src/network/network_exceptions.dart';
 export './src/network/network_error.dart';
 export './src/network/network_interceptor.dart';
 
-export 'src/dio_nexus_manager.dart';
+export './src/utility/network_connectivity/network_connection.dart';
+export './src/utility/result_state.dart';
 
+export 'src/dio_nexus_manager.dart';

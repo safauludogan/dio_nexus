@@ -1,7 +1,13 @@
 import '../../dio_nexus.dart';
 
 abstract class IDioNexusManager {
-  IDioNexusManager({required BaseOptions options});
+  IDioNexusManager(
+      {required BaseOptions options,
+      Interceptor? interceptor,
+      this.onRefreshToken,
+      this.networkConnection,
+      this.printLogsDebugMode = false,
+      this.maxNetworkTryCount = 5});
 
   Future<IResponseModel<R?>?>
       sendRequest<T extends IDioNexusNetworkModel<T>, R>(
@@ -15,4 +21,10 @@ abstract class IDioNexusManager {
     void Function(int, int)? onSendProgress,
     void Function(int, int)? onReceiveProgress,
   });
+
+  Future Function(DioError error)? onRefreshToken;
+  final int maxAttempts = 3;
+  final bool? printLogsDebugMode;
+  NetworkConnection? networkConnection;
+  int maxNetworkTryCount;
 }
