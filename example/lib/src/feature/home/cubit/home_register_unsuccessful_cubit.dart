@@ -1,22 +1,21 @@
 import 'package:dio_nexus/dio_nexus.dart';
+import 'package:network_manager_test/src/feature/home/service/home_service.dart';
 import '../model/register.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../service/IHomeService.dart';
 
 class HomeRegisterUnSuccessCubit extends Cubit<ResultState<Register>> {
   HomeRegisterUnSuccessCubit({required IDioNexusManager dioNexusManager})
       : super(const Idle()) {
-    _dioNexusManager = dioNexusManager;
+    homeService = HomeService(dioNexusManager);
   }
 
-  late IDioNexusManager _dioNexusManager;
-
+  late IHomeService homeService;
   Future<void> getUserList() async {
     emit(const ResultState.loading());
     IResponseModel<Register?>? response =
-        await _dioNexusManager.sendRequest<Register, Register>("api/register",
-            requestType: RequestType.POST,
-            responseModel: Register(),
-            data: Register(email: 'sydney@fife'));
+        await homeService.register(Register(email: 'sydney@fife'));
     if (response?.errorModel?.networkException != null) {
       emit(ResultState.error(error: response!.errorModel!.networkException!));
     } else if (response?.model != null) {

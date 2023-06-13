@@ -2,22 +2,18 @@ import 'package:dio_nexus/dio_nexus.dart';
 import '../model/single_user_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../service/home_service.dart';
+
 class HomeSingleUserCubit extends Cubit<ResultState<SingleUser>> {
   HomeSingleUserCubit({required IDioNexusManager dioNexusManager})
       : super(const Idle()) {
-    _dioNexusManager = dioNexusManager;
+    homeService = HomeService(dioNexusManager);
   }
-
-  late IDioNexusManager _dioNexusManager;
+  late HomeService homeService;
 
   Future<void> getUserList() async {
     emit(const ResultState.loading());
-    IResponseModel<SingleUser?>? response =
-        await _dioNexusManager.sendRequest<SingleUser, SingleUser>(
-      "api/users/2",
-      requestType: RequestType.GET,
-      responseModel: SingleUser(),
-    );
+    IResponseModel<SingleUser?>? response = await homeService.getUser(2);
     if (response?.errorModel?.networkException != null) {
       emit(ResultState.error(error: response!.errorModel!.networkException!));
     } else if (response?.model != null) {
