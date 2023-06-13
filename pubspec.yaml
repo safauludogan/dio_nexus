@@ -18,7 +18,8 @@ dependencies:
   connectivity_plus: ^4.0.1
   freezed: ^2.3.5
   json_serializable: ^6.7.0
-
+  fluttertoast: ^8.2.2
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter

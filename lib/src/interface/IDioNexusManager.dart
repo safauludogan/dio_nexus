@@ -26,5 +26,6 @@ abstract class IDioNexusManager {
   final int maxAttempts = 3;
   final bool? printLogsDebugMode;
   NetworkConnection? networkConnection;
+  TimeoutToast? timeoutToast;
   int maxNetworkTryCount;
 }

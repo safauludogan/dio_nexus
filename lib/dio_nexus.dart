@@ -18,11 +18,12 @@ export './src/interface/IErrorModel.dart';
 export 'src/model/response_model.dart';
 export 'src/model/error_model.dart';
 
+export 'src/network/network_result_state.dart';
 export 'src/network/network_exceptions.dart';
 export './src/network/network_error.dart';
 export './src/network/network_interceptor.dart';
 
 export './src/utility/network_connectivity/network_connection.dart';
-export './src/utility/result_state.dart';
+export './src/utility/timeout_toast.dart';
 
 export 'src/dio_nexus_manager.dart';

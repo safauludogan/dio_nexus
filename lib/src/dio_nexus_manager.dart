@@ -12,6 +12,7 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
       Interceptor? interceptor,
       this.onRefreshToken,
       this.networkConnection,
+      this.timeoutToast,
       this.printLogsDebugMode = false,
       this.maxNetworkTryCount = 5})
       : assert(options.headers.containsKey(Headers.contentTypeHeader),
@@ -39,10 +40,15 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   @override
   NetworkConnection? networkConnection;
 
+  /// Show toast when request or connection timeout.
+  /// Default value is false.
+  @override
+  TimeoutToast? timeoutToast;
+
   /// This variable is used for no internet connection.
   /// You can modify this counter when initializing [DioNexusManager].
   /// When your internet connection is lost, you can try re-requesting up to 5 times.
-   @override
+  @override
   int maxNetworkTryCount;
 
   int networkTryCounter = 0;

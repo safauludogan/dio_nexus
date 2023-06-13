@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import '../network/network_exceptions.dart';
 
-part 'result_state.freezed.dart';
+part 'network_result_state.freezed.dart';
 
 @freezed
 abstract class ResultState<T> with _$ResultState<T> {

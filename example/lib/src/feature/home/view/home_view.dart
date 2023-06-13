@@ -18,52 +18,57 @@ class _HomeViewState extends HomeViewModel {
       body: SafeArea(
         child: Column(
           children: [
-            Wrap(
-              children: [
-                ElevatedButton(
-                  onPressed: () async => await homeUsersCubit.getUserList(),
-                  child: const Text('Get User List'),
-                ),
-                const SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () async =>
-                      await homeSingleUserCubit.getUserList(),
-                  child: const Text('Get Single User'),
-                ),
-                const SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () async =>
-                      await homeUserDelayCubit.getUserDelayList(),
-                  child: const Text('Get Users With Delay'),
-                ),
-                const SizedBox(width: 10),
-                ElevatedButton(
-                  onPressed: () async =>
-                      homeRegisterUnSuccessCubit.getUserList(),
-                  child: const Text('Register Unsuccessful'),
-                ),
-              ],
-            ),
-            Expanded(
-                child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  UserListWidget(homeUsersCubit: homeUsersCubit),
-                  const Divider(color: Colors.red, thickness: 1.5),
-                  SingleUserWidget(homeSingleUserCubit: homeSingleUserCubit),
-                  const Divider(color: Colors.red, thickness: 1.5),
-                  SingleWithDelayWidget(homeUserDelayCubit: homeUserDelayCubit),
-                  const Divider(color: Colors.red, thickness: 1.5),
-                  RegisterUnSuccessWidget(
-                      homeRegisterUnSuccessCubit: homeRegisterUnSuccessCubit)
-                ],
-              ),
-            )),
+            _buttonsWrap(),
+            _bodyColumn(),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _bodyColumn() {
+    return Expanded(
+        child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          UserListWidget(homeUsersCubit: homeUsersCubit),
+          const Divider(color: Colors.red, thickness: 1.5),
+          SingleUserWidget(homeSingleUserCubit: homeSingleUserCubit),
+          const Divider(color: Colors.red, thickness: 1.5),
+          SingleWithDelayWidget(homeUserDelayCubit: homeUserDelayCubit),
+          const Divider(color: Colors.red, thickness: 1.5),
+          RegisterUnSuccessWidget(
+              homeRegisterUnSuccessCubit: homeRegisterUnSuccessCubit)
+        ],
+      ),
+    ));
+  }
+
+  Widget _buttonsWrap() {
+    return Wrap(
+      children: [
+        ElevatedButton(
+          onPressed: () async => await homeUsersCubit.getUserList(),
+          child: const Text('Get User List'),
+        ),
+        const SizedBox(width: 10),
+        ElevatedButton(
+          onPressed: () async => await homeSingleUserCubit.getUserList(),
+          child: const Text('Get Single User'),
+        ),
+        const SizedBox(width: 10),
+        ElevatedButton(
+          onPressed: () async => await homeUserDelayCubit.getUserDelayList(),
+          child: const Text('Get Users With Delay'),
+        ),
+        const SizedBox(width: 10),
+        ElevatedButton(
+          onPressed: () async => homeRegisterUnSuccessCubit.getUserList(),
+          child: const Text('Register Unsuccessful'),
+        ),
+      ],
     );
   }
 }
