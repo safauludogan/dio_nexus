@@ -184,7 +184,7 @@ abstract class NetworkExceptions with _$NetworkExceptions {
         exceptionReason = "Unexpected error occurred";
       },
       requestTimeout: () {
-        exceptionReason = "Connection request timeout";
+        exceptionReason = "Connection failed. Weak internet connection.";
       },
       noInternetConnection: () {
         exceptionReason = "No internet connection";
@@ -214,7 +214,7 @@ abstract class NetworkExceptions with _$NetworkExceptions {
         exceptionReason = "Couldn't establish a connection for the request.";
       },
       receiveTimeout: () {
-        exceptionReason = "Maximum duration for receiving a response.";
+        exceptionReason = "Server unresponsive. Please retry.";
       },
       forbiddenRequest: (String? reason) {
         exceptionReason = reason ?? "Forbidden Request";

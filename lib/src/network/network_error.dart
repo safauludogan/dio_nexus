@@ -83,12 +83,9 @@ extension DioNexusManagerExtension on DioNexusManager {
         }
       }
     }
-    if (timeoutToast != null) {
-      timeoutToast!
-          .show(NetworkExceptions.getDioException(error, printLogsDebugMode));
-    }
     NetworkExceptions dioException =
         NetworkExceptions.getDioException(error, printLogsDebugMode);
+    if (timeoutToast != null) timeoutToast!.show(dioException);
     return ResponseModel<R?>(
         null,
         ErrorModel(error.response?.statusCode,

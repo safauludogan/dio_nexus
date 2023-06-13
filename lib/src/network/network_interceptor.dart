@@ -1,9 +1,11 @@
 import '../../dio_nexus.dart';
 
 extension NetworkInterceptor on DioNexusManager {
-  QueuedInterceptorsWrapper networkInterceptor() {
-    return QueuedInterceptorsWrapper(
+  void networkInterceptor(Interceptor? interceptor) {
+    if (interceptor != null) interceptors.add(interceptor);
+    interceptors.add(QueuedInterceptorsWrapper(
       onRequest: (options, handler) {
+        print("QueuedInterceptorsWrapper");
         return handler.next(options);
       },
       onResponse: (e, handler) {
@@ -16,6 +18,6 @@ extension NetworkInterceptor on DioNexusManager {
           return handler.next(e);
         }
       },
-    );
+    ));
   }
 }

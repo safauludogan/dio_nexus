@@ -21,7 +21,7 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
     (transformer as BackgroundTransformer).jsonDecodeCallback = parseJson;
     httpClientAdapter = HttpClientAdapter();
 
-    interceptors.add(networkInterceptor());
+    networkInterceptor(interceptor);
     _addLogInterceptor();
   }
 

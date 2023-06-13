@@ -33,6 +33,7 @@ class TimeoutToast {
     } else {
       return;
     }
+    Fluttertoast.cancel();
     Fluttertoast.showToast(
         msg: text,
         toastLength: toastLength ?? Toast.LENGTH_LONG,
