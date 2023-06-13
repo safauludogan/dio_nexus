@@ -5,18 +5,13 @@ extension NetworkInterceptor on DioNexusManager {
     if (interceptor != null) interceptors.add(interceptor);
     interceptors.add(QueuedInterceptorsWrapper(
       onRequest: (options, handler) {
-        print("QueuedInterceptorsWrapper");
         return handler.next(options);
       },
       onResponse: (e, handler) {
         return handler.next(e);
       },
       onError: (e, handler) {
-        try {
-          return handler.next(e);
-        } catch (_) {
-          return handler.next(e);
-        }
+        return handler.next(e);
       },
     ));
   }

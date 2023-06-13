@@ -13,7 +13,6 @@ class MyInterceptor implements InterceptorsWrapper {
 
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
-    print("InterceptorsWrapper");
     return handler.next(response);
   }
 }

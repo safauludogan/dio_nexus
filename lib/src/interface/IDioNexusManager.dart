@@ -28,4 +28,8 @@ abstract class IDioNexusManager {
   NetworkConnection? networkConnection;
   TimeoutToast? timeoutToast;
   int maxNetworkTryCount;
+  void addBaseHeader(MapEntry<String, String> key);
+  void clearAllHeaders();
+  void removeHeader(String key);
+  Map<String, dynamic> get getAllHeaders;
 }

@@ -99,4 +99,22 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   void _addLogInterceptor() {
     if (printLogsDebugMode ?? false) interceptors.add(LogInterceptor());
   }
+
+  @override
+  void addBaseHeader(MapEntry<String, String> mapEntry) {
+    options.headers[mapEntry.key] = mapEntry.value;
+  }
+
+  @override
+  void clearAllHeaders() {
+    options.headers.clear();
+  }
+
+  @override
+  void removeHeader(String key) {
+    options.headers.remove(key);
+  }
+
+  @override
+  Map<String, dynamic> get getAllHeaders => options.headers;
 }
