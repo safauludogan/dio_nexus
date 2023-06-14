@@ -1,7 +1,7 @@
 library dio_nexus;
 
 export 'package:dio/src/cancel_token.dart';
-export 'package:dio/src/dio_error.dart';
+export 'package:dio/src/dio_exception.dart';
 export 'package:dio/src/dio_mixin.dart';
 export 'package:dio/src/form_data.dart';
 export 'package:dio/src/multipart_file.dart';
@@ -21,7 +21,6 @@ export 'src/model/error_model.dart';
 export 'src/network/network_result_state.dart';
 export 'src/network/network_exceptions.dart';
 export './src/network/network_error.dart';
-export './src/network/network_interceptor.dart';
 
 export './src/utility/network_connectivity/network_connection.dart';
 export './src/utility/timeout_toast.dart';

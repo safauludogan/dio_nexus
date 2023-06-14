@@ -1,11 +1,11 @@
 part of '../dio_nexus_manager.dart';
 
 /// Must be top-level function
-Map<String, dynamic> _parseAndDecode(String response) {
-  return jsonDecode(response) as Map<String, dynamic>;
+dynamic _parseAndDecode(String response) {
+  return jsonDecode(response);
 }
 
-Future<Map<String, dynamic>> parseJson(String body) {
+dynamic parseJson(String body) {
   return compute(_parseAndDecode, body);
 }
 

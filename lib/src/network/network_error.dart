@@ -6,7 +6,7 @@ import '../../dio_nexus.dart';
 extension DioNexusManagerExtension on DioNexusManager {
   Future<IResponseModel<R?>?>
       handleNetworkError<T extends IDioNexusNetworkModel<T>, R>(
-    DioError error,
+    DioException error,
     String path, {
     Object? data,
     required T responseModel,
@@ -20,7 +20,7 @@ extension DioNexusManagerExtension on DioNexusManager {
     if (error.response?.statusCode == HttpStatus.unauthorized) {
       //Burada refreshToken'ı çalıştırmayı dene
 
-      if (onRefreshToken != null) {
+      /* if (onRefreshToken != null) {
         await onRefreshToken?.call(error);
         final r = RetryOptions(maxAttempts: maxAttempts);
         await r.retry(
@@ -39,7 +39,7 @@ extension DioNexusManagerExtension on DioNexusManager {
           // Retry on SocketException or TimeoutException
           retryIf: (e) => e is SocketException || e is TimeoutException,
         );
-      }
+      }*/
     } else {
       if (networkConnection != null) {
         bool _timeOut = false;

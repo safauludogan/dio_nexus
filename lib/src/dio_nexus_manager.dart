@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import '../dio_nexus.dart';
 
 part 'network/network_model_parser.dart';
+part 'network/network_interceptor.dart';
 
 class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   DioNexusManager(
@@ -19,15 +20,16 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
             'Content-Type header is required') {
     this.options = options;
     (transformer as BackgroundTransformer).jsonDecodeCallback = parseJson;
-    httpClientAdapter = HttpClientAdapter();
 
     networkInterceptor(interceptor);
     _addLogInterceptor();
+
+    httpClientAdapter = HttpClientAdapter();
   }
 
   /// [onRefrestToken] when HttpStatus return unauthorized, you can call your refrestToken manager
   @override
-  Future Function(DioError error)? onRefreshToken;
+  Future Function(DioException error)? onRefreshToken;
 
   /// [maxAttempts] When catch error(unauthorized or TieoutExc. etc.) try 3 request to server
   @override
@@ -68,6 +70,7 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   }) async {
     options ??= Options();
     options.method = requestType.name;
+
     try {
       var response = await request(path,
           data: data,
@@ -83,7 +86,7 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
       var result = _modelResponseData<T, R>(
           responseModel, _response, printLogsDebugMode);
       return ResponseModel<R?>(result, null);
-    } on DioError catch (err) {
+    } on DioException catch (err) {
       return handleNetworkError<T, R>(err, path,
           data: data,
           responseModel: responseModel,

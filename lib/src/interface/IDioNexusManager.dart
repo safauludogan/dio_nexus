@@ -22,7 +22,7 @@ abstract class IDioNexusManager {
     void Function(int, int)? onReceiveProgress,
   });
 
-  Future Function(DioError error)? onRefreshToken;
+  Future Function(DioException error)? onRefreshToken;
   final int maxAttempts = 3;
   final bool? printLogsDebugMode;
   NetworkConnection? networkConnection;

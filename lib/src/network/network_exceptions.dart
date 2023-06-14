@@ -65,23 +65,23 @@ abstract class NetworkExceptions with _$NetworkExceptions {
     if (error is Exception) {
       try {
         NetworkExceptions networkExceptions;
-        if (error is DioError) {
+        if (error is DioException) {
           switch (error.type) {
-            case DioErrorType.cancel:
+            case DioExceptionType.cancel:
               networkExceptions = NetworkExceptions.requestCancelled(
                   error.response?.data.toString());
               break;
-            case DioErrorType.connectionTimeout:
+            case DioExceptionType.connectionTimeout:
               networkExceptions = const NetworkExceptions.requestTimeout();
               break;
-            case DioErrorType.unknown:
+            case DioExceptionType.unknown:
               networkExceptions =
                   const NetworkExceptions.noInternetConnection();
               break;
-            case DioErrorType.receiveTimeout:
+            case DioExceptionType.receiveTimeout:
               networkExceptions = const NetworkExceptions.receiveTimeout();
               break;
-            case DioErrorType.badResponse:
+            case DioExceptionType.badResponse:
               switch (error.response?.statusCode) {
                 case 400:
                   networkExceptions = NetworkExceptions.badRequest(
@@ -121,14 +121,14 @@ abstract class NetworkExceptions with _$NetworkExceptions {
                   );
               }
               break;
-            case DioErrorType.sendTimeout:
+            case DioExceptionType.sendTimeout:
               networkExceptions = const NetworkExceptions.sendTimeout();
               break;
-            case DioErrorType.badCertificate:
+            case DioExceptionType.badCertificate:
               networkExceptions = NetworkExceptions.badCertificate(
                   error.response?.data.toString());
               break;
-            case DioErrorType.connectionError:
+            case DioExceptionType.connectionError:
               networkExceptions = NetworkExceptions.connectionError(
                   error.response?.data.toString());
               break;

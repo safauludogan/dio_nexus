@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 
 class MyInterceptor implements InterceptorsWrapper {
   @override
-  void onError(DioError err, ErrorInterceptorHandler handler) {
+  void onError(DioException err, ErrorInterceptorHandler handler) {
     return handler.next(err);
   }
 

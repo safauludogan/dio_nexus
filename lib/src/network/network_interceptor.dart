@@ -1,15 +1,9 @@
-import '../../dio_nexus.dart';
+part of '../dio_nexus_manager.dart';
 
 extension NetworkInterceptor on DioNexusManager {
   void networkInterceptor(Interceptor? interceptor) {
     if (interceptor != null) interceptors.add(interceptor);
     interceptors.add(QueuedInterceptorsWrapper(
-      onRequest: (options, handler) {
-        return handler.next(options);
-      },
-      onResponse: (e, handler) {
-        return handler.next(e);
-      },
       onError: (e, handler) {
         return handler.next(e);
       },
