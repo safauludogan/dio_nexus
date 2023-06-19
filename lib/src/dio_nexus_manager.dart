@@ -80,11 +80,12 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
           options: options,
           onSendProgress: onSendProgress);
       var _response = response.data;
-      if (response.data is String) {
-        _response = await parseJson(response.data);
+      if (_response is String && R is! NexusModel) {
+        _response = await parseJson(_response);
       }
       var result = _modelResponseData<T, R>(
           responseModel, _response, printLogsDebugMode);
+
       return ResponseModel<R?>(result, null);
     } on DioException catch (err) {
       return handleNetworkError<T, R>(err, path,

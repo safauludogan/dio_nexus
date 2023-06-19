@@ -14,8 +14,8 @@ class NetworkManager {
         options: BaseOptions(
             baseUrl: "https://reqres.in/",
             headers: {'Content-type': 'application/json'},
-            receiveTimeout: const Duration(seconds: 3),
-            connectTimeout: const Duration(seconds: 3)),
+            receiveTimeout: const Duration(microseconds: 100),
+            connectTimeout: const Duration(microseconds: 100)),
         networkConnection: NetworkConnection(
           context: context,
           snackbarDuration: const Duration(seconds: 3),

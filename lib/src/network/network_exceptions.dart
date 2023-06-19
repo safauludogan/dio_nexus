@@ -75,8 +75,8 @@ abstract class NetworkExceptions with _$NetworkExceptions {
               networkExceptions = const NetworkExceptions.requestTimeout();
               break;
             case DioExceptionType.unknown:
-              networkExceptions =
-                  const NetworkExceptions.noInternetConnection();
+              networkExceptions = NetworkExceptions.defaultError(
+                  error: error.response?.data ?? error.error);
               break;
             case DioExceptionType.receiveTimeout:
               networkExceptions = const NetworkExceptions.receiveTimeout();

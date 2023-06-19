@@ -5,8 +5,12 @@ dynamic _parseAndDecode(String response) {
   return jsonDecode(response);
 }
 
-dynamic parseJson(String body) {
-  return compute(_parseAndDecode, body);
+dynamic parseJson(String body) async {
+  try {
+    return await compute(_parseAndDecode, body);
+  } catch (e) {
+    return body;
+  }
 }
 
 R? _modelResponseData<T extends IDioNexusNetworkModel<T>, R>(
@@ -16,8 +20,13 @@ R? _modelResponseData<T extends IDioNexusNetworkModel<T>, R>(
       return responseData.map((e) => responseModel.fromJson(e)).toList() as R;
     } else if (responseData is Map<String, dynamic>) {
       return responseModel.fromJson(responseData) as R;
+    } else if ((responseModel is NexusModel) &&
+        (responseModel as NexusModel).modelType == responseData.runtimeType) {
+      return genericNexusModelConverter(responseData) as R;
     } else {
-      CustomLogger(data: "$responseData cannot be parsed")
+      CustomLogger(
+              data:
+                  "$responseData data is [${responseData.runtimeType}] cannot be parsed as $R")
           .show(printLogsDebugMode ?? false);
     }
   } catch (err) {
@@ -25,4 +34,18 @@ R? _modelResponseData<T extends IDioNexusNetworkModel<T>, R>(
         .show(printLogsDebugMode ?? false);
   }
   return null;
+}
+
+dynamic genericNexusModelConverter(dynamic data) {
+  if (data.runtimeType == int) {
+    return NexusModel<int>(value: data);
+  } else if (data.runtimeType == String) {
+    return NexusModel<String>(value: data);
+  } else if (data.runtimeType == bool) {
+    return NexusModel<bool>(value: data);
+  } else if (data.runtimeType == double) {
+    return NexusModel<double>(value: data);
+  } else if (data.runtimeType == dynamic) {
+    return NexusModel<dynamic>(value: data);
+  }
 }

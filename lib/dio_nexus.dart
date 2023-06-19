@@ -17,6 +17,7 @@ export './src/interface/IErrorModel.dart';
 
 export 'src/model/response_model.dart';
 export 'src/model/error_model.dart';
+export 'src/model/nexus_model.dart';
 
 export 'src/network/network_result_state.dart';
 export 'src/network/network_exceptions.dart';

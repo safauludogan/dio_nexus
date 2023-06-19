@@ -66,8 +66,7 @@ extension DioNexusManagerExtension on DioNexusManager {
                             NetworkExceptions.getDioException(
                                 error, printLogsDebugMode))
                         .toString(),
-                    NetworkExceptions.getDioException(
-                        error, printLogsDebugMode)));
+                    const NetworkExceptions.noInternetConnection()));
           }
           return await sendRequest(
             path,
