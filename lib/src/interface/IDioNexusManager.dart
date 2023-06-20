@@ -22,7 +22,8 @@ abstract class IDioNexusManager {
     void Function(int, int)? onReceiveProgress,
   });
 
-  Future Function(DioException error)? onRefreshToken;
+  Future Function(DioException error,BaseOptions options)? onRefreshToken;
+  Function? onRefreshFail;
   final int maxAttempts = 3;
   final bool? printLogsDebugMode;
   NetworkConnection? networkConnection;
@@ -32,4 +33,5 @@ abstract class IDioNexusManager {
   void clearAllHeaders();
   void removeHeader(String key);
   Map<String, dynamic> get getAllHeaders;
+  Interceptors get showInterceptors;
 }

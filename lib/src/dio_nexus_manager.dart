@@ -1,7 +1,10 @@
+import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio_nexus/src/utility/custom_logger.dart';
 import 'package:flutter/foundation.dart';
+import 'package:retry/retry.dart';
 import '../dio_nexus.dart';
 
 part 'network/network_model_parser.dart';
@@ -12,6 +15,7 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
       {required BaseOptions options,
       Interceptor? interceptor,
       this.onRefreshToken,
+      this.onRefreshFail,
       this.networkConnection,
       this.timeoutToast,
       this.printLogsDebugMode = false,
@@ -21,15 +25,21 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
     this.options = options;
     (transformer as BackgroundTransformer).jsonDecodeCallback = parseJson;
 
-    networkInterceptor(interceptor);
     _addLogInterceptor();
+    networkInterceptor(interceptor);
 
     httpClientAdapter = HttpClientAdapter();
   }
 
   /// [onRefrestToken] when HttpStatus return unauthorized, you can call your refrestToken manager
   @override
-  Future Function(DioException error)? onRefreshToken;
+  Future Function(DioException error,BaseOptions options)? onRefreshToken;
+
+  /// If [onRefrestToken] return fail, this metot will work.
+  ///
+  /// Example: When refreshToken==fail, app will logout.
+  @override
+  Function? onRefreshFail;
 
   /// [maxAttempts] When catch error(unauthorized or TieoutExc. etc.) try 3 request to server
   @override
@@ -54,6 +64,9 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   int maxNetworkTryCount;
 
   int networkTryCounter = 0;
+
+  @override
+  Interceptors get showInterceptors => interceptors;
 
   @override
   Future<IResponseModel<R?>?>
