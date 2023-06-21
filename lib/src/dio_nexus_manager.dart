@@ -33,7 +33,7 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
 
   /// [onRefrestToken] when HttpStatus return unauthorized, you can call your refrestToken manager
   @override
-  Future Function(DioException error,BaseOptions options)? onRefreshToken;
+  Future Function(DioException error, BaseOptions options)? onRefreshToken;
 
   /// If [onRefrestToken] return fail, this metot will work.
   ///
@@ -41,7 +41,9 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   @override
   Function? onRefreshFail;
 
-  /// [maxAttempts] When catch error(unauthorized or TieoutExc. etc.) try 3 request to server
+  /// When statusCode == HttpStatus.unauthorized, if you have provided a refresh token, the token renewal process starts.
+  ///
+  /// During this process, the retry function runs, enabling multiple attempts. You can manually set the number of attempts by adjusting the value of [maxAttempts].
   @override
   final int maxAttempts = 3;
 

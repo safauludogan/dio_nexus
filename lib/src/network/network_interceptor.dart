@@ -17,8 +17,7 @@ extension NetworkInterceptor on DioNexusManager {
             if (options.baseUrl.isEmpty && requestModel.baseUrl.isNotEmpty) {
               options.baseUrl = requestModel.baseUrl;
             }
-            const r = RetryOptions(maxAttempts: 3);
-            var response = await r.retry(
+            var response = await RetryOptions(maxAttempts: maxAttempts).retry(
               () async => await Dio(options).request(requestModel.path,
                   queryParameters: requestModel.queryParameters,
                   data: requestModel.data,
@@ -28,9 +27,12 @@ extension NetworkInterceptor on DioNexusManager {
               retryIf: (e) => e is SocketException || e is TimeoutException,
             );
             return handler.resolve(response);
-          } catch (error) {
-            onRefreshFail?.call();
-            return handler.next(e);
+          } on DioException catch (error) {
+            if (error.response?.statusCode == HttpStatus.unauthorized) {
+              onRefreshFail?.call();
+              return handler.next(e);
+            }
+            return handler.next(error);
           }
         }
         return handler.next(e);

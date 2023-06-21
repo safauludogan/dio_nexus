@@ -6,6 +6,7 @@ abstract class IDioNexusManager {
       Interceptor? interceptor,
       this.onRefreshToken,
       this.networkConnection,
+      this.maxAttempts = 3,
       this.printLogsDebugMode = false,
       this.maxNetworkTryCount = 5});
 
@@ -24,7 +25,7 @@ abstract class IDioNexusManager {
 
   Future Function(DioException error,BaseOptions options)? onRefreshToken;
   Function? onRefreshFail;
-  final int maxAttempts = 3;
+  final int? maxAttempts;
   final bool? printLogsDebugMode;
   NetworkConnection? networkConnection;
   TimeoutToast? timeoutToast;
