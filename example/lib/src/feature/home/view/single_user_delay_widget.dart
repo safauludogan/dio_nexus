@@ -19,7 +19,7 @@ class SingleWithDelayWidget extends StatelessWidget {
       builder: (BuildContext context, ResultState<Users> state) {
         return state.when(
           loading: () => const Center(child: CircularProgressIndicator()),
-          idle: () => const Center(child: Text('Henüz yok')),
+          idle: () => const Center(child: Text('Not data')),
           data: (Users data) => Center(child: Text(data.data.toString())),
           error: (NetworkExceptions error) {
             return NetworkErrorResolver(error).errorWidget(

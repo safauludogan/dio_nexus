@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:io';
-import 'package:retry/retry.dart';
 import '../../dio_nexus.dart';
 
 extension DioNexusManagerExtension on DioNexusManager {
@@ -39,8 +37,7 @@ extension DioNexusManagerExtension on DioNexusManager {
               ErrorModel(
                   error.response?.statusCode,
                   NetworkExceptions.getErrorMessage(
-                          NetworkExceptions.getDioException(
-                              error, printLogsDebugMode))
+                          const NetworkExceptions.noInternetConnection())
                       .toString(),
                   const NetworkExceptions.noInternetConnection()));
         }

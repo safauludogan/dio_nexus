@@ -4,7 +4,7 @@ import '../../viewmodel/home_viewmodel.dart';
 import 'single_user_delay_widget.dart';
 import 'single_user_widget.dart';
 import 'user_list_widget.dart';
- 
+
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
   @override
@@ -33,14 +33,22 @@ class _HomeViewState extends HomeViewModel {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          UserListWidget(homeUsersCubit: homeUsersCubit),
+          const Spacer(),
+          Expanded(child: UserListWidget(homeUsersCubit: homeUsersCubit)),
           const Divider(color: Colors.red, thickness: 1.5),
-          SingleUserWidget(homeSingleUserCubit: homeSingleUserCubit),
+          Expanded(
+              child:
+                  SingleUserWidget(homeSingleUserCubit: homeSingleUserCubit)),
           const Divider(color: Colors.red, thickness: 1.5),
-          SingleWithDelayWidget(homeUserDelayCubit: homeUserDelayCubit),
+          Expanded(
+              child: SingleWithDelayWidget(
+                  homeUserDelayCubit: homeUserDelayCubit)),
           const Divider(color: Colors.red, thickness: 1.5),
-          RegisterUnSuccessWidget(
-              homeRegisterUnSuccessCubit: homeRegisterUnSuccessCubit)
+          Expanded(
+            child: RegisterUnSuccessWidget(
+                homeRegisterUnSuccessCubit: homeRegisterUnSuccessCubit),
+          ),
+          const Spacer(),
         ],
       ),
     ));
@@ -51,7 +59,7 @@ class _HomeViewState extends HomeViewModel {
       children: [
         ElevatedButton(
           onPressed: () async => await homeUsersCubit.getUserList(),
-          child: const Text('Get User List'),
+          child: const Text('Get Email List'),
         ),
         const SizedBox(width: 10),
         ElevatedButton(

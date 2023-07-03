@@ -14,10 +14,10 @@ class NetworkErrorResolver {
     } else if (error == const NetworkExceptions.receiveTimeout()) {
       return Column(
         children: [
-          const Text('Sunucudan yanıt alınamadı'),
+          const Text('No response from server'),
           OutlinedButton(
               onPressed: () => receiveData.call(),
-              child: const Text('Tekrar dene'))
+              child: const Text('Try again'))
         ],
       );
     }

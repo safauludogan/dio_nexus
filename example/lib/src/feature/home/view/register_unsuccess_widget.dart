@@ -19,7 +19,7 @@ class RegisterUnSuccessWidget extends StatelessWidget {
       builder: (BuildContext context, ResultState<Register> state) {
         return state.when(
           loading: () => const Center(child: CircularProgressIndicator()),
-          idle: () => const Center(child: Text('Henüz yok')),
+          idle: () => const Center(child: Text('Not data')),
           data: (Register data) => Center(child: Text(data.email.toString())),
           error: (NetworkExceptions error) {
             return NetworkErrorResolver(error).errorWidget(

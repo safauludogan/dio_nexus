@@ -18,8 +18,16 @@ class UserListWidget extends StatelessWidget {
       builder: (BuildContext context, ResultState<Users> state) {
         return state.when(
           loading: () => const Center(child: CircularProgressIndicator()),
-          idle: () => const Center(child: Text('Henüz yok')),
-          data: (Users data) => Center(child: Text(data.data.toString())),
+          idle: () => const Center(child: Text('Not data')),
+          data: (Users data) => ListView.builder(
+            itemCount: data.data!.length,
+            itemBuilder: (context, index) => Center(
+              child: Text(
+                data.data![index].email.toString(),
+                style: const TextStyle(fontSize: 20),
+              ),
+            ),
+          ),
           error: (NetworkExceptions error) {
             return NetworkErrorResolver(error)
                 .errorWidget(receiveData: () => homeUsersCubit.getUserList());

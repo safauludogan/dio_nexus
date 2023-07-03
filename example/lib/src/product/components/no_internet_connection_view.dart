@@ -9,9 +9,9 @@ class NoInternetConnectionView extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Text('İnternet bağlantınz yok!'),
+        Text('No internet connection!'),
         SizedBox(width: 15),
-        Icon(Icons.wifi_off_outlined),
+        Icon(Icons.wifi_off_outlined, color: Colors.blue),
       ],
     );
   }
