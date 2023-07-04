@@ -47,6 +47,7 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   @override
   final int maxAttempts = 3;
 
+  /// Set true to print requests or errors received.
   @override
   final bool? printLogsDebugMode;
 
@@ -67,12 +68,12 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
 
   int networkTryCounter = 0;
 
+  /// Get all interceptors
   @override
   Interceptors get showInterceptors => interceptors;
 
   @override
-  Future<IResponseModel<R?>?>
-      sendRequest<T extends IDioNexusNetworkModel<T>, R>(
+  Future<IResponseModel<R?>?> sendRequest<T extends IDioNexusNetworkModel<T>, R>(
     String path, {
     Object? data,
     required T responseModel,
