@@ -1,12 +1,10 @@
 name: dio_nexus
 description: NetworkManager for Flutter
-version: 0.0.1
-authors:
-  - Safa Uludoğan <safauludgn@gmail.com>
+version: 0.0.3
 homepage: https://github.com/safauludogan/dio_nexus
 
 environment:
-  sdk: '>=2.19.6 <3.0.0'
+  sdk: '>=2.19.6 <4.0.0'
   flutter: ">=1.17.0"
 
 dependencies:
@@ -19,6 +17,7 @@ dependencies:
   freezed: ^2.3.5
   json_serializable: ^6.7.0
   fluttertoast: ^8.2.2
+  freezed_annotation: ^2.2.0
   
 dev_dependencies:
   flutter_test:

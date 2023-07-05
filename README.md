@@ -23,7 +23,7 @@ This library is a network management layer built on top of Dio.
 ## Getting started
 
   
-### 🎉 Add dependency
+### 🎉 **Add dependency**
 
  
 You can use the command to add dio as a dependency with the latest stable version:
@@ -58,7 +58,7 @@ We start by initialize the library. Here you can give these features to your pro
 		
 ```
  
-### Model parser  
+### **Model parser**  
 
 The `sendRequest` function in the library allows you to send requests to APIs. It takes generic types `R` and `T`.  
 
@@ -74,7 +74,7 @@ The `T` type indicates the model you want to parse. Your model class, representi
 ```
 
 
-### Refresh token
+### **Refresh token**
 
 Use refresh Token for expired token. In case of Authentication fail, the refresh token you have given will work.
 
@@ -95,7 +95,7 @@ Use refresh Token for expired token. In case of Authentication fail, the refresh
 		
 ```
 
-### Network connection
+### **Network connection**
   
 In situations where there is no internet connection, it displays a toast message to notify the user about the lack of internet. By clicking the `Retry` button, the user can send another request to the previous request.
   
@@ -114,11 +114,11 @@ In situations where there is no internet connection, it displays a toast message
 		snackbarDuration:  const  Duration(seconds:  5)));
 	
 ```
-🎉 <b> Result:
+🎉 Result: 
 
 <img src="https://raw.githubusercontent.com/safauludogan/dio_nexus/master/gif/no_internet_connection_gif.gif" width="338" height="600"/>
 
-### Timeout request
+### **Timeout request**
 
 When there is no response from the server or the server cannot be reached, a toast message is displayed by default, indicating a timeout. To use it, you only need to provide the constructor.
 
@@ -136,12 +136,12 @@ To utilize the functionality, simply instantiate the class by providing the nece
 	
 ``` 
 
-🎉 <b> Result:
+🎉 Result:
 
 <img src="https://github.com/safauludogan/dio_nexus/blob/master/gif/get_users_with_delay_gif.gif?raw=true" width="338" height="600"/>
 
 
-### Custom interceptor
+### **Custom interceptor**
 
 You can add your own custom interceptor.
 
@@ -157,7 +157,7 @@ You can add your own custom interceptor.
 			
 ```
 
-## Examples
+## **Examples**
 
 Return Users type:
   
@@ -202,7 +202,7 @@ When the server does not return JSON data as a response, this is handled by the 
 
 ```  
 
-### Features
+### **Features**
 When initializing `DioNexusManager`, you can provide the following properties:
 
 ```dart
@@ -235,7 +235,7 @@ Interceptors  get showInterceptors;
 
 ``` 
 
-### Licence
+### **Licence**
 
 [![Pub](https://img.shields.io/badge/licence-MIT-blue
 )](https://github.com/LICENSE)   
