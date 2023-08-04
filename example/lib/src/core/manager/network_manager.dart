@@ -16,6 +16,7 @@ class NetworkManager {
             headers: {'Content-type': 'application/json'},
             receiveTimeout: const Duration(seconds: 15),
             connectTimeout: const Duration(seconds: 15)),
+        locale: const Locale('tr'),
         networkConnection: NetworkConnection(
           context: context,
           snackbarDuration: const Duration(seconds: 3),

@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import '../../dio_nexus.dart';
 
 abstract class IDioNexusManager {
@@ -23,7 +24,7 @@ abstract class IDioNexusManager {
     void Function(int, int)? onReceiveProgress,
   });
 
-  Future Function(DioException error,BaseOptions options)? onRefreshToken;
+  Future Function(DioException error, BaseOptions options)? onRefreshToken;
   Function? onRefreshFail;
   final int? maxAttempts;
   final bool? printLogsDebugMode;
@@ -35,4 +36,5 @@ abstract class IDioNexusManager {
   void removeHeader(String key);
   Map<String, dynamic> get getAllHeaders;
   Interceptors get showInterceptors;
+  Locale? locale;
 }

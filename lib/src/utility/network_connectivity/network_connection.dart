@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:dio_nexus/src/constants/color_constants.dart';
 import 'package:flutter/material.dart';
-
-import '../../constants/string_constants.dart';
+import '../../network/nexus_language.dart';
 import 'internet_connection_manager.dart';
 
 class NetworkConnection {
@@ -42,8 +40,10 @@ class NetworkConnection {
       final snackBar = SnackBar(
         duration: snackbarDuration ?? Duration(seconds: _defaultSecond),
         content: title ??
-            const Text(StringConstants.networkConnectionNoInternetConnection,
-                style: TextStyle(color: Colors.white)),
+            Text(
+                NexusLanguage
+                    .getLangValue.networkConnectionNoInternetConnection,
+                style: const TextStyle(color: Colors.white, fontSize: 12)),
         onVisible: () {
           //? When there is no click on the "Retry" button, we will timeout the request within 5 seconds.
           //? When the Snackbar is visible, this timeout will be reset.
@@ -60,11 +60,12 @@ class NetworkConnection {
             }
           });
         },
+        padding: const EdgeInsets.only(left: 12),
         backgroundColor:
             backgroundColor ?? ColorConstants.networkConnectionColorRed,
         action: SnackBarAction(
           textColor: labelColor ?? ColorConstants.networkConnectionColorWhite,
-          label: label ?? StringConstants.networkConnectionTryAgain,
+          label: label ?? NexusLanguage.getLangValue.networkConnectionTryAgain,
           onPressed: () async {
             await Future.delayed(const Duration(milliseconds: 1000));
             onRetry.call(true);

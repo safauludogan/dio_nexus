@@ -1,6 +1,6 @@
 name: dio_nexus
 description: NetworkManager for Flutter
-version: 0.0.3
+version: 0.1.4
 homepage: https://github.com/safauludogan/dio_nexus
 
 environment:
@@ -18,6 +18,8 @@ dependencies:
   json_serializable: ^6.7.0
   fluttertoast: ^8.2.2
   freezed_annotation: ^2.2.0
+  flutter_localizations:
+    sdk: flutter
   
 dev_dependencies:
   flutter_test:
@@ -32,8 +34,9 @@ dev_dependencies:
 flutter:
 
   # To add assets to your package, add an assets section, like this:
-  # assets:
-  #   - images/a_dot_burr.jpeg
+  #assets:
+  #  - asset/lang/en-US.json
+  #  - asset/lang/tr-TR.json
   #   - images/a_dot_ham.jpeg
   #
   # For details regarding assets in packages, see

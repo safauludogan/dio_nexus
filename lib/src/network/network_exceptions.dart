@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:dio_nexus/dio_nexus.dart';
-
+import 'nexus_language.dart';
 import '../utility/custom_logger.dart';
 part 'network_exceptions.freezed.dart';
 
@@ -155,69 +155,70 @@ abstract class NetworkExceptions with _$NetworkExceptions {
 
   static String getErrorMessage(NetworkExceptions networkExceptions) {
     var exceptionReason = "";
+
     networkExceptions.when(
       notImplemented: (String? reason) {
-        exceptionReason = "Not Implemented";
+        exceptionReason = NexusLanguage.getLangValue.notImplemented;
       },
       requestCancelled: (String? reason) {
-        exceptionReason = "Request Cancelled";
+        exceptionReason = NexusLanguage.getLangValue.requestCancelled;
       },
       internalServerError: (String? reason) {
-        exceptionReason = "Internal Server Error";
+        exceptionReason = NexusLanguage.getLangValue.internalServerError;
       },
       notFound: (String? reason) {
-        exceptionReason = reason ?? "Not found!";
+        exceptionReason = reason ?? NexusLanguage.getLangValue.notFound;
       },
       serviceUnavailable: (String? reason) {
-        exceptionReason = "Service unavailable";
+        exceptionReason = NexusLanguage.getLangValue.serviceUnavailable;
       },
       methodNotAllowed: (String? reason) {
-        exceptionReason = "Method Allowed";
+        exceptionReason = NexusLanguage.getLangValue.methodNotAllowed;
       },
       badRequest: (String? reason) {
-        exceptionReason = reason ?? "Bad request";
+        exceptionReason = reason ?? NexusLanguage.getLangValue.badRequest;
       },
       unauthorisedRequest: (String? reason) {
-        exceptionReason = reason ?? "Unauthorised request";
+        exceptionReason = reason ?? NexusLanguage.getLangValue.unauthorisedRequest;
       },
       unexpectedError: () {
-        exceptionReason = "Unexpected error occurred";
+        exceptionReason = NexusLanguage.getLangValue.unexpectedError;
       },
       requestTimeout: () {
-        exceptionReason = "Connection failed. Weak internet connection.";
+        exceptionReason = NexusLanguage.getLangValue.requestTimeout;
       },
       noInternetConnection: () {
-        exceptionReason = "No internet connection";
+        exceptionReason = NexusLanguage.getLangValue.networkConnectionNoInternetConnection;
       },
       conflict: (String? reason) {
-        exceptionReason = "Error due to a conflict";
+        exceptionReason = NexusLanguage.getLangValue.conflict;
       },
       sendTimeout: () {
-        exceptionReason = "Maximum duration for sending a request.";
+        exceptionReason = NexusLanguage.getLangValue.sendTimeout;
       },
       unableToProcess: () {
-        exceptionReason = "Unable to process the data";
+        exceptionReason = NexusLanguage.getLangValue.unableToProcess;
       },
       defaultError: (String error) {
         exceptionReason = error;
       },
       formatException: () {
-        exceptionReason = "Unexpected error occurred";
+        exceptionReason = NexusLanguage.getLangValue.formatException;
       },
       notAcceptable: (String? reason) {
-        exceptionReason = "Not acceptable";
+        exceptionReason = NexusLanguage.getLangValue.notAcceptable;
       },
       badCertificate: (String? reason) {
-        exceptionReason = reason ?? "Invalid or Untrusted SSL/TLS certificate.";
+        exceptionReason = reason ?? NexusLanguage.getLangValue.badCertificate;
       },
       connectionError: (String? reason) {
-        exceptionReason = "Couldn't establish a connection for the request.";
+        exceptionReason = NexusLanguage.getLangValue.connectionError;
       },
       receiveTimeout: () {
-        exceptionReason = "Server unresponsive. Please retry.";
+        exceptionReason = NexusLanguage.getLangValue.receiveTimeout;
       },
       forbiddenRequest: (String? reason) {
-        exceptionReason = reason ?? "Forbidden Request";
+        exceptionReason = reason ?? NexusLanguage.getLangValue.forbiddenRequest;
       },
     );
     return exceptionReason;

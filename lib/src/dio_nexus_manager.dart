@@ -4,9 +4,11 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:dio_nexus/src/utility/custom_logger.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:retry/retry.dart';
 import '../dio_nexus.dart';
-
+import 'languages/app_localizations_delegate.dart';
+import 'network/nexus_language.dart';
 part 'network/network_model_parser.dart';
 part 'network/network_interceptor.dart';
 
@@ -19,7 +21,8 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
       this.networkConnection,
       this.timeoutToast,
       this.printLogsDebugMode = false,
-      this.maxNetworkTryCount = 5})
+      this.maxNetworkTryCount = 5,
+      this.locale})
       : assert(options.headers.containsKey(Headers.contentTypeHeader),
             'Content-Type header is required') {
     this.options = options;
@@ -27,9 +30,15 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
 
     _addLogInterceptor();
     networkInterceptor(interceptor);
-
+    NexusLanguage.languageLoad(locale);
     httpClientAdapter = HttpClientAdapter();
   }
+
+  /// For example, `const Locale('tr')` and `const Locale('en')` are equal and
+  /// both have the [languageCode] `tr`, because `en` is a deprecated language
+  /// subtag that was replaced by the subtag `tr`.
+  @override
+  Locale? locale;
 
   /// [onRefrestToken] when HttpStatus return unauthorized, you can call your refrestToken manager
   @override
@@ -73,7 +82,8 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   Interceptors get showInterceptors => interceptors;
 
   @override
-  Future<IResponseModel<R?>?> sendRequest<T extends IDioNexusNetworkModel<T>, R>(
+  Future<IResponseModel<R?>?>
+      sendRequest<T extends IDioNexusNetworkModel<T>, R>(
     String path, {
     Object? data,
     required T responseModel,

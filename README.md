@@ -9,7 +9,7 @@
 
 # Dio Nexus
 
-[![Pub](https://img.shields.io/badge/pub-v0.0.1-blue)](https://pub.dev/packages/dio_nexus)   [![Pub](https://img.shields.io/badge/github-v0.0.1-blue%26logo%3Dgithub
+[![Pub](https://img.shields.io/badge/pub-v0.0.4-blue)](https://pub.dev/packages/dio_nexus)   [![Pub](https://img.shields.io/badge/github-v0.0.4-blue%26logo%3Dgithub
 )](https://github.com/safauludogan/dio_nexus)   
 
 
@@ -93,6 +93,26 @@ Use refresh Token for expired token. In case of Authentication fail, the refresh
 			receiveTimeout:  const  Duration(seconds:  15),
 			connectTimeout:  const  Duration(seconds:  15)));
 		
+```
+
+### 🎉 **Locale**
+
+Call the translate function anytime you want to translate the app and provide it with the language code
+It supports Turkish and English. Locale("tr) and Locale("en")
+
+```dart
+
+	IDioNexusManager networkManager =  DioNexusManager(
+		options:  BaseOptions(
+			baseUrl:  "https://reqres.in/",
+			headers: {NetworkHeadersEnum.ContentType.value:  "application/json"},
+			receiveTimeout:  const  Duration(seconds:  15),
+			connectTimeout:  const  Duration(seconds:  15)),
+		locale: const Locale('tr'),
+		networkConnection:  NetworkConnection(
+		context: context,
+		snackbarDuration:  const  Duration(seconds:  5)));
+	
 ```
 
 ### **Network connection**
