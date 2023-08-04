@@ -1,6 +1,6 @@
 name: dio_nexus
 description: NetworkManager for Flutter
-version: 0.1.4
+version: 0.1.0
 homepage: https://github.com/safauludogan/dio_nexus
 
 environment:
