@@ -24,7 +24,7 @@ abstract class IDioNexusManager {
     void Function(int, int)? onReceiveProgress,
   });
 
-  Future Function(DioException error, BaseOptions options)? onRefreshToken;
+  Future<DioException> Function(DioException error, BaseOptions options)? onRefreshToken;
   Function? onRefreshFail;
   final int? maxAttempts;
   final bool? printLogsDebugMode;

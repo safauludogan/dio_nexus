@@ -2,29 +2,34 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
+import 'package:dio_nexus/dio_nexus.dart';
+import 'package:dio_nexus/src/network/nexus_language.dart';
 import 'package:dio_nexus/src/utility/custom_logger.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:retry/retry.dart';
-import '../dio_nexus.dart';
-import 'languages/app_localizations_delegate.dart';
-import 'network/nexus_language.dart';
-part 'network/network_model_parser.dart';
-part 'network/network_interceptor.dart';
 
+part 'network/network_interceptor.dart';
+part 'network/network_model_parser.dart';
+
+/// The DioNexusManager class is a Dart class that extends the DioMixin class and implements the Dio and
+/// IDioNexusManager interfaces.
 class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
-  DioNexusManager(
-      {required BaseOptions options,
-      Interceptor? interceptor,
-      this.onRefreshToken,
-      this.onRefreshFail,
-      this.networkConnection,
-      this.timeoutToast,
-      this.printLogsDebugMode = false,
-      this.maxNetworkTryCount = 5,
-      this.locale})
-      : assert(options.headers.containsKey(Headers.contentTypeHeader),
-            'Content-Type header is required') {
+  // ignore: public_member_api_docs
+  DioNexusManager({
+    required BaseOptions options,
+    Interceptor? interceptor,
+    this.onRefreshToken,
+    this.onRefreshFail,
+    this.networkConnection,
+    this.timeoutToast,
+    this.printLogsDebugMode = false,
+    this.maxNetworkTryCount = 5,
+    this.locale,
+  }) : assert(
+          options.headers.containsKey(Headers.contentTypeHeader),
+          'Content-Type header is required',
+        ) {
     this.options = options;
     (transformer as BackgroundTransformer).jsonDecodeCallback = parseJson;
 
@@ -39,10 +44,10 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   /// subtag that was replaced by the subtag `tr`.
   @override
   Locale? locale;
-
+ 
   /// [onRefrestToken] when HttpStatus return unauthorized, you can call your refrestToken manager
   @override
-  Future Function(DioException error, BaseOptions options)? onRefreshToken;
+  Future<DioException> Function(DioException error, BaseOptions options)? onRefreshToken;
 
   /// If [onRefrestToken] return fail, this metot will work.
   ///
@@ -75,6 +80,11 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   @override
   int maxNetworkTryCount;
 
+  /// The line `int networkTryCounter = 0;` is declaring and initializing a variable named
+  /// `networkTryCounter` of type `int` with an initial value of `0`. This variable is used to keep
+  /// track of the number of times a network request has been attempted. It is incremented each time a
+  /// network request is made and can be used to limit the number of retry attempts or for other
+  /// purposes related to network request handling.
   int networkTryCounter = 0;
 
   /// Get all interceptors
@@ -85,9 +95,9 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   Future<IResponseModel<R?>?>
       sendRequest<T extends IDioNexusNetworkModel<T>, R>(
     String path, {
-    Object? data,
     required T responseModel,
     required RequestType requestType,
+    Object? data,
     Map<String, dynamic>? queryParameters,
     CancelToken? cancelToken,
     Options? options,
@@ -98,31 +108,39 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
     options.method = requestType.name;
 
     try {
-      var response = await request(path,
-          data: data,
-          queryParameters: queryParameters,
-          cancelToken: cancelToken,
-          onReceiveProgress: onReceiveProgress,
-          options: options,
-          onSendProgress: onSendProgress);
+      final response = await request(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress,
+        options: options,
+        onSendProgress: onSendProgress,
+      );
       var _response = response.data;
       if (_response is String && R is! NexusModel) {
         _response = await parseJson(_response);
       }
-      var result = _modelResponseData<T, R>(
-          responseModel, _response, printLogsDebugMode);
+      final result = _modelResponseData<T, R>(
+        responseModel,
+        _response,
+        printLogsDebugMode,
+      );
 
       return ResponseModel<R?>(result, null);
     } on DioException catch (err) {
-      return handleNetworkError<T, R>(err, path,
-          data: data,
-          responseModel: responseModel,
-          requestType: requestType,
-          queryParameters: queryParameters,
-          cancelToken: cancelToken,
-          options: options,
-          onSendProgress: onSendProgress,
-          onReceiveProgress: onReceiveProgress);
+      return handleNetworkError<T, R>(
+        err,
+        path,
+        data: data,
+        responseModel: responseModel,
+        requestType: requestType,
+        queryParameters: queryParameters,
+        cancelToken: cancelToken,
+        options: options,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+      );
     }
   }
 

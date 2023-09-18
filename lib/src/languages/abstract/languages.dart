@@ -1,5 +1,8 @@
+// ignore_for_file: public_member_api_docs
+
 import 'package:flutter/material.dart';
 
+/// The abstract class Languages represents a general concept of programming languages.
 abstract class Languages {
   static Languages? of(BuildContext context) {
     return Localizations.of<Languages>(context, Languages);

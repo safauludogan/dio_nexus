@@ -1,14 +1,17 @@
 import 'dart:async';
-import '../../dio_nexus.dart';
+import 'package:dio_nexus/dio_nexus.dart';
 
+/// The `extension DioNexusManagerExtension on DioNexusManager` is creating an extension on the
+/// `DioNexusManager` class. This allows you to add new functionality or methods to the
+/// `DioNexusManager` class without modifying its original implementation.
 extension DioNexusManagerExtension on DioNexusManager {
   Future<IResponseModel<R?>?>
       handleNetworkError<T extends IDioNexusNetworkModel<T>, R>(
     DioException error,
     String path, {
-    Object? data,
     required T responseModel,
     required RequestType requestType,
+    Object? data,
     Map<String, dynamic>? queryParameters,
     CancelToken? cancelToken,
     Options? options,
@@ -16,9 +19,9 @@ extension DioNexusManagerExtension on DioNexusManager {
     void Function(int, int)? onReceiveProgress,
   }) async {
     if (networkConnection != null) {
-      bool _timeOut = false;
-      bool _retry = false;
-      var connectionResult = await networkConnection!.checkInternetConnection(
+      var _timeOut = false;
+      var _retry = false;
+      final connectionResult = await networkConnection!.checkInternetConnection(
         (timeOut) {
           _timeOut = timeOut;
         },
@@ -33,15 +36,17 @@ extension DioNexusManagerExtension on DioNexusManager {
           networkTryCounter = 0;
 
           return ResponseModel<R?>(
-              null,
-              ErrorModel(
-                  error.response?.statusCode,
-                  NetworkExceptions.getErrorMessage(
-                          const NetworkExceptions.noInternetConnection())
-                      .toString(),
-                  const NetworkExceptions.noInternetConnection()));
+            null,
+            ErrorModel(
+              error.response?.statusCode,
+              NetworkExceptions.getErrorMessage(
+                const NetworkExceptions.noInternetConnection(),
+              ),
+              const NetworkExceptions.noInternetConnection(),
+            ),
+          );
         }
-        return await sendRequest(
+        return sendRequest(
           path,
           requestType: requestType,
           responseModel: responseModel,
@@ -54,12 +59,16 @@ extension DioNexusManagerExtension on DioNexusManager {
         );
       }
     }
-    NetworkExceptions dioException =
+    final dioException =
         NetworkExceptions.getDioException(error, printLogsDebugMode);
     if (timeoutToast != null) timeoutToast!.show(dioException);
     return ResponseModel<R?>(
-        null,
-        ErrorModel(error.response?.statusCode,
-            NetworkExceptions.getErrorMessage(dioException), dioException));
+      null,
+      ErrorModel(
+        error.response?.statusCode,
+        NetworkExceptions.getErrorMessage(dioException),
+        dioException,
+      ),
+    );
   }
 }

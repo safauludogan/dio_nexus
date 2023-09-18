@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dio_nexus/dio_nexus.dart';
+import 'package:flutter/material.dart';
 
-class NexusModel<T> extends IDioNexusNetworkModel<NexusModel> {
+@immutable
+final class NexusModel<T> extends IDioNexusNetworkModel<NexusModel<T>> {
   T? value;
   NexusModel({this.value});
 
@@ -21,7 +23,7 @@ class NexusModel<T> extends IDioNexusNetworkModel<NexusModel> {
   }
 
   @override
-  NexusModel fromJson(Map<String, dynamic>? json) {
+  NexusModel<T> fromJson(Map<String, dynamic>? json) {
     return NexusModel.fromJson(json);
   }
 
@@ -38,5 +40,4 @@ class NexusModel<T> extends IDioNexusNetworkModel<NexusModel> {
 
   @override
   String toString() => 'NexusModel(value: $value)';
-
 }

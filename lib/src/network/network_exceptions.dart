@@ -1,11 +1,14 @@
 import 'dart:io';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:dio_nexus/dio_nexus.dart';
-import 'nexus_language.dart';
-import '../utility/custom_logger.dart';
+import 'package:dio_nexus/src/network/nexus_language.dart';
+import 'package:dio_nexus/src/utility/custom_logger.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
 part 'network_exceptions.freezed.dart';
 
 @freezed
+/// The NetworkExceptions class is an abstract class that provides a set of network-related exception
+/// types.
 abstract class NetworkExceptions with _$NetworkExceptions {
   const factory NetworkExceptions.requestCancelled(String? reason) =
       RequestCancelled;
@@ -60,7 +63,9 @@ abstract class NetworkExceptions with _$NetworkExceptions {
   const factory NetworkExceptions.unexpectedError() = UnexpectedError;
 
   static NetworkExceptions getDioException(
-      dynamic error, bool? printLogsDebugMode) {
+    dynamic error,
+    bool? printLogsDebugMode,
+  ) {
     CustomLogger(data: error.toString()).show(printLogsDebugMode ?? false);
     if (error is Exception) {
       try {
@@ -69,69 +74,65 @@ abstract class NetworkExceptions with _$NetworkExceptions {
           switch (error.type) {
             case DioExceptionType.cancel:
               networkExceptions = NetworkExceptions.requestCancelled(
-                  error.response?.data.toString());
-              break;
+                error.response?.data.toString(),
+              );
             case DioExceptionType.connectionTimeout:
               networkExceptions = const NetworkExceptions.requestTimeout();
-              break;
             case DioExceptionType.unknown:
               networkExceptions = NetworkExceptions.defaultError(
-                  error: error.response?.data ?? error.error);
-              break;
+                error:
+                    error.response?.data.toString() ?? error.error.toString(),
+              );
             case DioExceptionType.receiveTimeout:
               networkExceptions = const NetworkExceptions.receiveTimeout();
-              break;
             case DioExceptionType.badResponse:
               switch (error.response?.statusCode) {
                 case 400:
                   networkExceptions = NetworkExceptions.badRequest(
-                      error.response?.data.toString());
-                  break;
+                    error.response?.data.toString(),
+                  );
                 case 401:
                   networkExceptions = NetworkExceptions.unauthorisedRequest(
-                      error.response?.data.toString());
-                  break;
+                    error.response?.data.toString(),
+                  );
                 case 403:
                   networkExceptions = NetworkExceptions.forbiddenRequest(
-                      error.response?.data.toString());
-                  break;
+                    error.response?.data.toString(),
+                  );
                 case 404:
                   networkExceptions = NetworkExceptions.notFound(
-                      error.response?.data.toString());
-                  break;
+                    error.response?.data.toString(),
+                  );
                 case 409:
                   networkExceptions = NetworkExceptions.conflict(
-                      error.response?.data.toString());
-                  break;
+                    error.response?.data.toString(),
+                  );
                 case 408:
                   networkExceptions = const NetworkExceptions.requestTimeout();
-                  break;
                 case 500:
                   networkExceptions = NetworkExceptions.internalServerError(
-                      error.response?.data.toString());
-                  break;
+                    error.response?.data.toString(),
+                  );
                 case 503:
                   networkExceptions = NetworkExceptions.serviceUnavailable(
-                      error.response?.data.toString());
-                  break;
+                    error.response?.data.toString(),
+                  );
                 default:
                   var responseCode = error.response?.statusCode;
                   networkExceptions = NetworkExceptions.defaultError(
-                    error: "Received invalid status code: $responseCode",
+                    error: 'Received invalid status code: $responseCode',
                   );
               }
-              break;
             case DioExceptionType.sendTimeout:
               networkExceptions = const NetworkExceptions.sendTimeout();
-              break;
             case DioExceptionType.badCertificate:
               networkExceptions = NetworkExceptions.badCertificate(
-                  error.response?.data.toString());
-              break;
+                error.response?.data.toString(),
+              );
             case DioExceptionType.connectionError:
               networkExceptions = NetworkExceptions.connectionError(
-                  error.response?.data.toString());
-              break;
+                error.response?.data.toString(),
+              );
           }
         } else if (error is SocketException) {
           networkExceptions = const NetworkExceptions.noInternetConnection();
@@ -145,7 +146,7 @@ abstract class NetworkExceptions with _$NetworkExceptions {
         return const NetworkExceptions.unexpectedError();
       }
     } else {
-      if (error.toString().contains("is not a subtype of")) {
+      if (error.toString().contains('is not a subtype of')) {
         return const NetworkExceptions.unableToProcess();
       } else {
         return const NetworkExceptions.unexpectedError();
@@ -153,8 +154,13 @@ abstract class NetworkExceptions with _$NetworkExceptions {
     }
   }
 
+  /// The function returns an error message based on the given network exception.
+  /// 
+  /// Args:
+  ///   networkExceptions (NetworkExceptions): The parameter "networkExceptions" is of type
+  /// NetworkExceptions.
   static String getErrorMessage(NetworkExceptions networkExceptions) {
-    var exceptionReason = "";
+    var exceptionReason = '';
 
     networkExceptions.when(
       notImplemented: (String? reason) {
@@ -179,7 +185,8 @@ abstract class NetworkExceptions with _$NetworkExceptions {
         exceptionReason = reason ?? NexusLanguage.getLangValue.badRequest;
       },
       unauthorisedRequest: (String? reason) {
-        exceptionReason = reason ?? NexusLanguage.getLangValue.unauthorisedRequest;
+        exceptionReason =
+            reason ?? NexusLanguage.getLangValue.unauthorisedRequest;
       },
       unexpectedError: () {
         exceptionReason = NexusLanguage.getLangValue.unexpectedError;
@@ -188,7 +195,8 @@ abstract class NetworkExceptions with _$NetworkExceptions {
         exceptionReason = NexusLanguage.getLangValue.requestTimeout;
       },
       noInternetConnection: () {
-        exceptionReason = NexusLanguage.getLangValue.networkConnectionNoInternetConnection;
+        exceptionReason =
+            NexusLanguage.getLangValue.networkConnectionNoInternetConnection;
       },
       conflict: (String? reason) {
         exceptionReason = NexusLanguage.getLangValue.conflict;
