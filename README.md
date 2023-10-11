@@ -9,7 +9,7 @@
 
 # Dio Nexus
 
-[![Pub](https://img.shields.io/badge/pub-v0.2.0-blue)](https://pub.dev/packages/dio_nexus)   [![Pub](https://img.shields.io/badge/github-v0.2.0-blue%26logo%3Dgithub
+[![Pub](https://img.shields.io/badge/pub-v0.2.1-blue)](https://pub.dev/packages/dio_nexus)   [![Pub](https://img.shields.io/badge/github-v0.2.1-blue%26logo%3Dgithub
 )](https://github.com/safauludogan/dio_nexus)   
 
 

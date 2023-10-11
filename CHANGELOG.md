@@ -1,3 +1,7 @@
+## 0.2.1
+
+- Updated some packages
+
 ## 0.2.0
 
 - Updated some packages
