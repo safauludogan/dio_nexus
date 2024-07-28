@@ -31,7 +31,9 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
           'Content-Type header is required',
         ) {
     this.options = options;
-    (transformer as BackgroundTransformer).jsonDecodeCallback = parseJson;
+    if (transformer is BackgroundTransformer) {
+      (transformer as BackgroundTransformer).jsonDecodeCallback = parseJson;
+    }
 
     _addLogInterceptor();
     networkInterceptor(interceptor);
@@ -44,10 +46,11 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   /// subtag that was replaced by the subtag `tr`.
   @override
   Locale? locale;
- 
+
   /// [onRefrestToken] when HttpStatus return unauthorized, you can call your refrestToken manager
   @override
-  Future<DioException> Function(DioException error, BaseOptions options)? onRefreshToken;
+  Future<DioException> Function(DioException error, BaseOptions options)?
+      onRefreshToken;
 
   /// If [onRefrestToken] return fail, this metot will work.
   ///
