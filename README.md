@@ -7,7 +7,7 @@
 
 # Dio Nexus
 
-[![Pub](https://img.shields.io/badge/pub-v0.3.1-blue)](https://pub.dev/packages/dio_nexus) [![Pub](https://img.shields.io/badge/github-v0.3.1-blue%26logo%3Dgithub)](https://github.com/safauludogan/dio_nexus)
+[![Pub](https://img.shields.io/badge/pub-v0.3.2-blue)](https://pub.dev/packages/dio_nexus) [![Pub](https://img.shields.io/badge/github-v0.3.2-blue%26logo%3Dgithub)](https://github.com/safauludogan/dio_nexus)
 
 This library is a network management layer built on top of Dio.
 
@@ -192,22 +192,6 @@ Return Model type:
 		return  await nexusManager.sendRequest<Model, List<Model>>(
 			'api/path',
 			responseModel:  Model(),
-			requestType:  RequestType.GET,
-			queryParameters: {"key": value});
-	}
-
-```
-
-<br>
-
-When the server does not return JSON data as a response, this is handled by the `NexusModel`. Based on the data received from the server, you provide a `T` type. This `T` type can be String, int, bool, double, or dynamic. The response will be parsed and presented to you based on the T type you specify.
-
-```dart
-
-	Future<IResponseModel<NexusModel<String>?>?> request() async {
-		return  await nexusManager.sendRequest<NexusModel, NexusModel<String>>(
-			'api/path',
-			responseModel:  NexusModel<String>(),
 			requestType:  RequestType.GET,
 			queryParameters: {"key": value});
 	}
