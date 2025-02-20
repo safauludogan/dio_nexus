@@ -1,3 +1,9 @@
+## 0.3.2
+
+### Breaking Changes
+
+- Removed NexusModel class - Use primitive request handling instead for non-JSON responses
+
 ## 0.3.1
 
 ### Testing
