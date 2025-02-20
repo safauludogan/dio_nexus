@@ -12,7 +12,7 @@ part of 'network_result_state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$ResultState<T> {
@@ -84,26 +84,34 @@ class _$ResultStateCopyWithImpl<T, $Res, $Val extends ResultState<T>>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of ResultState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
-abstract class _$$IdleCopyWith<T, $Res> {
-  factory _$$IdleCopyWith(_$Idle<T> value, $Res Function(_$Idle<T>) then) =
-      __$$IdleCopyWithImpl<T, $Res>;
+abstract class _$$IdleImplCopyWith<T, $Res> {
+  factory _$$IdleImplCopyWith(
+          _$IdleImpl<T> value, $Res Function(_$IdleImpl<T>) then) =
+      __$$IdleImplCopyWithImpl<T, $Res>;
 }
 
 /// @nodoc
-class __$$IdleCopyWithImpl<T, $Res>
-    extends _$ResultStateCopyWithImpl<T, $Res, _$Idle<T>>
-    implements _$$IdleCopyWith<T, $Res> {
-  __$$IdleCopyWithImpl(_$Idle<T> _value, $Res Function(_$Idle<T>) _then)
+class __$$IdleImplCopyWithImpl<T, $Res>
+    extends _$ResultStateCopyWithImpl<T, $Res, _$IdleImpl<T>>
+    implements _$$IdleImplCopyWith<T, $Res> {
+  __$$IdleImplCopyWithImpl(
+      _$IdleImpl<T> _value, $Res Function(_$IdleImpl<T>) _then)
       : super(_value, _then);
+
+  /// Create a copy of ResultState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 
-class _$Idle<T> implements Idle<T> {
-  const _$Idle();
+class _$IdleImpl<T> implements Idle<T> {
+  const _$IdleImpl();
 
   @override
   String toString() {
@@ -111,9 +119,9 @@ class _$Idle<T> implements Idle<T> {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$Idle<T>);
+        (other.runtimeType == runtimeType && other is _$IdleImpl<T>);
   }
 
   @override
@@ -195,29 +203,32 @@ class _$Idle<T> implements Idle<T> {
 }
 
 abstract class Idle<T> implements ResultState<T> {
-  const factory Idle() = _$Idle<T>;
+  const factory Idle() = _$IdleImpl<T>;
 }
 
 /// @nodoc
-abstract class _$$LoadingCopyWith<T, $Res> {
-  factory _$$LoadingCopyWith(
-          _$Loading<T> value, $Res Function(_$Loading<T>) then) =
-      __$$LoadingCopyWithImpl<T, $Res>;
+abstract class _$$LoadingImplCopyWith<T, $Res> {
+  factory _$$LoadingImplCopyWith(
+          _$LoadingImpl<T> value, $Res Function(_$LoadingImpl<T>) then) =
+      __$$LoadingImplCopyWithImpl<T, $Res>;
 }
 
 /// @nodoc
-class __$$LoadingCopyWithImpl<T, $Res>
-    extends _$ResultStateCopyWithImpl<T, $Res, _$Loading<T>>
-    implements _$$LoadingCopyWith<T, $Res> {
-  __$$LoadingCopyWithImpl(
-      _$Loading<T> _value, $Res Function(_$Loading<T>) _then)
+class __$$LoadingImplCopyWithImpl<T, $Res>
+    extends _$ResultStateCopyWithImpl<T, $Res, _$LoadingImpl<T>>
+    implements _$$LoadingImplCopyWith<T, $Res> {
+  __$$LoadingImplCopyWithImpl(
+      _$LoadingImpl<T> _value, $Res Function(_$LoadingImpl<T>) _then)
       : super(_value, _then);
+
+  /// Create a copy of ResultState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
 
-class _$Loading<T> implements Loading<T> {
-  const _$Loading();
+class _$LoadingImpl<T> implements Loading<T> {
+  const _$LoadingImpl();
 
   @override
   String toString() {
@@ -225,9 +236,9 @@ class _$Loading<T> implements Loading<T> {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$Loading<T>);
+        (other.runtimeType == runtimeType && other is _$LoadingImpl<T>);
   }
 
   @override
@@ -309,30 +320,34 @@ class _$Loading<T> implements Loading<T> {
 }
 
 abstract class Loading<T> implements ResultState<T> {
-  const factory Loading() = _$Loading<T>;
+  const factory Loading() = _$LoadingImpl<T>;
 }
 
 /// @nodoc
-abstract class _$$DataCopyWith<T, $Res> {
-  factory _$$DataCopyWith(_$Data<T> value, $Res Function(_$Data<T>) then) =
-      __$$DataCopyWithImpl<T, $Res>;
+abstract class _$$DataImplCopyWith<T, $Res> {
+  factory _$$DataImplCopyWith(
+          _$DataImpl<T> value, $Res Function(_$DataImpl<T>) then) =
+      __$$DataImplCopyWithImpl<T, $Res>;
   @useResult
   $Res call({T data});
 }
 
 /// @nodoc
-class __$$DataCopyWithImpl<T, $Res>
-    extends _$ResultStateCopyWithImpl<T, $Res, _$Data<T>>
-    implements _$$DataCopyWith<T, $Res> {
-  __$$DataCopyWithImpl(_$Data<T> _value, $Res Function(_$Data<T>) _then)
+class __$$DataImplCopyWithImpl<T, $Res>
+    extends _$ResultStateCopyWithImpl<T, $Res, _$DataImpl<T>>
+    implements _$$DataImplCopyWith<T, $Res> {
+  __$$DataImplCopyWithImpl(
+      _$DataImpl<T> _value, $Res Function(_$DataImpl<T>) _then)
       : super(_value, _then);
 
+  /// Create a copy of ResultState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? data = freezed,
   }) {
-    return _then(_$Data<T>(
+    return _then(_$DataImpl<T>(
       data: freezed == data
           ? _value.data
           : data // ignore: cast_nullable_to_non_nullable
@@ -343,8 +358,8 @@ class __$$DataCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$Data<T> implements Data<T> {
-  const _$Data({required this.data});
+class _$DataImpl<T> implements Data<T> {
+  const _$DataImpl({required this.data});
 
   @override
   final T data;
@@ -355,10 +370,10 @@ class _$Data<T> implements Data<T> {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$Data<T> &&
+            other is _$DataImpl<T> &&
             const DeepCollectionEquality().equals(other.data, data));
   }
 
@@ -366,11 +381,13 @@ class _$Data<T> implements Data<T> {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ResultState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$DataCopyWith<T, _$Data<T>> get copyWith =>
-      __$$DataCopyWithImpl<T, _$Data<T>>(this, _$identity);
+  _$$DataImplCopyWith<T, _$DataImpl<T>> get copyWith =>
+      __$$DataImplCopyWithImpl<T, _$DataImpl<T>>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -448,18 +465,22 @@ class _$Data<T> implements Data<T> {
 }
 
 abstract class Data<T> implements ResultState<T> {
-  const factory Data({required final T data}) = _$Data<T>;
+  const factory Data({required final T data}) = _$DataImpl<T>;
 
   T get data;
-  @JsonKey(ignore: true)
-  _$$DataCopyWith<T, _$Data<T>> get copyWith =>
+
+  /// Create a copy of ResultState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$DataImplCopyWith<T, _$DataImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ErrorCopyWith<T, $Res> {
-  factory _$$ErrorCopyWith(_$Error<T> value, $Res Function(_$Error<T>) then) =
-      __$$ErrorCopyWithImpl<T, $Res>;
+abstract class _$$ErrorImplCopyWith<T, $Res> {
+  factory _$$ErrorImplCopyWith(
+          _$ErrorImpl<T> value, $Res Function(_$ErrorImpl<T>) then) =
+      __$$ErrorImplCopyWithImpl<T, $Res>;
   @useResult
   $Res call({NetworkExceptions error});
 
@@ -467,18 +488,21 @@ abstract class _$$ErrorCopyWith<T, $Res> {
 }
 
 /// @nodoc
-class __$$ErrorCopyWithImpl<T, $Res>
-    extends _$ResultStateCopyWithImpl<T, $Res, _$Error<T>>
-    implements _$$ErrorCopyWith<T, $Res> {
-  __$$ErrorCopyWithImpl(_$Error<T> _value, $Res Function(_$Error<T>) _then)
+class __$$ErrorImplCopyWithImpl<T, $Res>
+    extends _$ResultStateCopyWithImpl<T, $Res, _$ErrorImpl<T>>
+    implements _$$ErrorImplCopyWith<T, $Res> {
+  __$$ErrorImplCopyWithImpl(
+      _$ErrorImpl<T> _value, $Res Function(_$ErrorImpl<T>) _then)
       : super(_value, _then);
 
+  /// Create a copy of ResultState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? error = null,
   }) {
-    return _then(_$Error<T>(
+    return _then(_$ErrorImpl<T>(
       error: null == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -486,6 +510,8 @@ class __$$ErrorCopyWithImpl<T, $Res>
     ));
   }
 
+  /// Create a copy of ResultState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $NetworkExceptionsCopyWith<$Res> get error {
@@ -497,8 +523,8 @@ class __$$ErrorCopyWithImpl<T, $Res>
 
 /// @nodoc
 
-class _$Error<T> implements Error<T> {
-  const _$Error({required this.error});
+class _$ErrorImpl<T> implements Error<T> {
+  const _$ErrorImpl({required this.error});
 
   @override
   final NetworkExceptions error;
@@ -509,21 +535,23 @@ class _$Error<T> implements Error<T> {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$Error<T> &&
+            other is _$ErrorImpl<T> &&
             (identical(other.error, error) || other.error == error));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, error);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of ResultState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ErrorCopyWith<T, _$Error<T>> get copyWith =>
-      __$$ErrorCopyWithImpl<T, _$Error<T>>(this, _$identity);
+  _$$ErrorImplCopyWith<T, _$ErrorImpl<T>> get copyWith =>
+      __$$ErrorImplCopyWithImpl<T, _$ErrorImpl<T>>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -601,10 +629,14 @@ class _$Error<T> implements Error<T> {
 }
 
 abstract class Error<T> implements ResultState<T> {
-  const factory Error({required final NetworkExceptions error}) = _$Error<T>;
+  const factory Error({required final NetworkExceptions error}) =
+      _$ErrorImpl<T>;
 
   NetworkExceptions get error;
-  @JsonKey(ignore: true)
-  _$$ErrorCopyWith<T, _$Error<T>> get copyWith =>
+
+  /// Create a copy of ResultState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ErrorImplCopyWith<T, _$ErrorImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }

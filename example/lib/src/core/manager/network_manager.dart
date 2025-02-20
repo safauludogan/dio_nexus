@@ -1,6 +1,6 @@
 import 'package:dio_nexus/dio_nexus.dart';
+import 'package:example/src/core/manager/interceptors/network_interceptor.dart';
 import 'package:flutter/material.dart';
-import 'package:network_manager_test/src/core/manager/interceptors/network_interceptor.dart';
 
 class NetworkManager {
   static final NetworkManager _instance = NetworkManager._init();

@@ -17,7 +17,7 @@ abstract class Languages {
   String get serviceUnavailable;
   String get methodNotAllowed;
   String get badRequest;
-  String get unauthorisedRequest;
+  String get unauthorizedRequest;
   String get unexpectedError;
   String get requestTimeout;
   String get conflict;
@@ -29,4 +29,7 @@ abstract class Languages {
   String get connectionError;
   String get receiveTimeout;
   String get forbiddenRequest;
+  String get rateLimitExceeded;
+  String get badGateway;
+  String get gatewayTimeout;
 }

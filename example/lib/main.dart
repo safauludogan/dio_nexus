@@ -1,6 +1,7 @@
+import 'package:example/src/feature/home/cubit/home_users_cubit.dart';
+import 'package:example/test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:network_manager_test/src/feature/home/cubit/home_users_cubit.dart';
 import 'src/core/manager/network_manager.dart';
 import 'src/feature/home/cubit/home_register_unsuccessful_cubit.dart';
 import 'src/feature/home/cubit/home_single_user_cubit.dart';
@@ -16,6 +17,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: multiProviders(),
+    );
+    return MaterialApp(
+      title: 'Material App',
+      home: Scaffold(
+          appBar: AppBar(
+            title: const Text('Material App Bar'),
+          ),
+          body: TestView()),
     );
   }
 

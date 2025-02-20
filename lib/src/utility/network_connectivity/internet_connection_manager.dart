@@ -9,40 +9,41 @@ abstract class IInternetConnectionManager {
   Future<ConnectionResult> checkInternetConnectionOneTimes();
 }
 
+/// The InternetConnectionManager class is a concrete implementation of the IInternetConnectionManager interface.
 class InternetConnectionManager extends IInternetConnectionManager {
-  late Connectivity _connectivity;
+  /// The constructor of the InternetConnectionManager.
   InternetConnectionManager() {
     _connectivity = Connectivity();
   }
+
+  /// The connectivity instance.
+  late final Connectivity _connectivity;
+
   @override
-  Future<ConnectionResult> checkInternetConnectionOneTimes() async {
-    final result = await _connectivity.checkConnectivity();
-    return ConnectionResult.check(result);
-  }
+
+  /// The function to check the internet connection one times.
+  Future<ConnectionResult> checkInternetConnectionOneTimes() async =>
+      ConnectionResult.check(await _connectivity.checkConnectivity());
 }
 
-/// In the code snippet provided, `off;` is defining one of the enum values for the `ConnectionResult`
-/// enum. The `off` value represents the case when the internet connection is not available.
+/// The enum ConnectionResult is a list of possible connection results.
 enum ConnectionResult {
+  /// The internet connection is on.
   on,
+
+  /// The internet connection is off.
   off;
 
   /// The function checks the connectivity result and returns a connection result.
-  /// 
-  /// Args:
-  ///   connectivityResult (ConnectivityResult): The parameter "connectivityResult" is of type
-  /// "ConnectivityResult".
-  static ConnectionResult check(ConnectivityResult connectivityResult) {
-    switch (connectivityResult) {
-      case ConnectivityResult.bluetooth:
-      case ConnectivityResult.wifi:
-      case ConnectivityResult.ethernet:
-      case ConnectivityResult.mobile:
-      case ConnectivityResult.other:
-      case ConnectivityResult.vpn:
-        return ConnectionResult.on;
-      case ConnectivityResult.none:
-        return ConnectionResult.off;
+  static ConnectionResult check(List<ConnectivityResult> connectivityResults) {
+    if (connectivityResults.contains(ConnectivityResult.bluetooth) ||
+        connectivityResults.contains(ConnectivityResult.wifi) ||
+        connectivityResults.contains(ConnectivityResult.ethernet) ||
+        connectivityResults.contains(ConnectivityResult.mobile) ||
+        connectivityResults.contains(ConnectivityResult.other) ||
+        connectivityResults.contains(ConnectivityResult.vpn)) {
+      return ConnectionResult.on;
     }
+    return ConnectionResult.off;
   }
 }

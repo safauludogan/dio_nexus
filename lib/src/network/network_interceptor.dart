@@ -10,7 +10,7 @@ extension NetworkInterceptor on DioNexusManager {
   /// Args:
   ///   interceptor (Interceptor): The `interceptor` parameter is of type `Interceptor?`, which means it
   /// can either be an instance of the `Interceptor` class or `null`.
-  void networkInterceptor(Interceptor? interceptor) {
+  void _networkInterceptor(Interceptor? interceptor) {
     if (interceptor != null) interceptors.add(interceptor);
     interceptors.add(
       QueuedInterceptorsWrapper(
@@ -20,8 +20,8 @@ extension NetworkInterceptor on DioNexusManager {
               errorResponse.statusCode != null &&
               errorResponse.statusCode == HttpStatus.unauthorized &&
               onRefreshToken != null) {
-            final onRefrestError = await onRefreshToken!(e, options);
-            final requestModel = onRefrestError.requestOptions;
+            final onRefreshError = await onRefreshToken!(e, options);
+            final requestModel = onRefreshError.requestOptions;
 
             try {
               if (options.baseUrl.isEmpty && requestModel.baseUrl.isNotEmpty) {
@@ -29,13 +29,16 @@ extension NetworkInterceptor on DioNexusManager {
               }
               final response =
                   await RetryOptions(maxAttempts: maxAttempts).retry(
-                () async => Dio(options).request(
+                () async => Dio(options).request<dynamic>(
                   requestModel.path,
                   queryParameters: requestModel.queryParameters,
                   data: requestModel.data,
                   options: Options(
                     method: requestModel.method,
                     headers: requestModel.headers,
+                    contentType: requestModel.contentType,
+                    sendTimeout: requestModel.sendTimeout,
+                    receiveTimeout: requestModel.receiveTimeout,
                   ),
                 ),
                 retryIf: (e) => e is SocketException || e is TimeoutException,

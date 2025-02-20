@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+
 import 'package:dio/dio.dart';
-import 'package:dio_nexus/dio_nexus.dart';
-import 'package:dio_nexus/src/network/nexus_language.dart';
-import 'package:dio_nexus/src/utility/custom_logger.dart';
+import 'package:dio_nexus/src/interface/index.dart';
+import 'package:dio_nexus/src/model/index.dart';
+import 'package:dio_nexus/src/network/index.dart';
+import 'package:dio_nexus/src/utility/index.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:retry/retry.dart';
@@ -35,9 +37,16 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
       (transformer as BackgroundTransformer).jsonDecodeCallback = parseJson;
     }
 
+    /// Add log interceptor
     _addLogInterceptor();
-    networkInterceptor(interceptor);
+
+    /// Add network interceptor
+    _networkInterceptor(interceptor);
+
+    /// Load language
     NexusLanguage.languageLoad(locale);
+
+    /// Set http client adapter
     httpClientAdapter = HttpClientAdapter();
   }
 
@@ -47,20 +56,22 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   @override
   Locale? locale;
 
-  /// [onRefrestToken] when HttpStatus return unauthorized, you can call your refrestToken manager
+  /// [onRefreshToken] when HttpStatus return unauthorized, you can call your refrestToken manager
   @override
   Future<DioException> Function(DioException error, BaseOptions options)?
       onRefreshToken;
 
-  /// If [onRefrestToken] return fail, this metot will work.
+  /// If [onRefreshToken] return fail, this method will work.
   ///
   /// Example: When refreshToken==fail, app will logout.
   @override
   Function? onRefreshFail;
 
-  /// When statusCode == HttpStatus.unauthorized, if you have provided a refresh token, the token renewal process starts.
+  /// When statusCode == HttpStatus.unauthorized, if you have provided a refresh
+  /// token, the token renewal process starts.
   ///
-  /// During this process, the retry function runs, enabling multiple attempts. You can manually set the number of attempts by adjusting the value of [maxAttempts].
+  /// During this process, the retry function runs, enabling multiple attempts.
+  /// You can manually set the number of attempts by adjusting the value of [maxAttempts].
   @override
   final int maxAttempts = 3;
 
@@ -94,6 +105,21 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
   @override
   Interceptors get showInterceptors => interceptors;
 
+  /// Send request
+  ///
+  /// [responseModel] is the model that will be used to parse the response.
+  /// [requestType] is the type of the request.
+  /// [data] is the data that will be sent to the server.
+  /// [queryParameters] is the query parameters that will be sent to the server.
+  /// [cancelToken] is the cancel token that will be used to cancel the request.
+  /// [options] is the options that will be used to send the request.
+  /// Example:
+  /// ```dart
+  /// manager.sendRequest<UserModel, List<UserModel>>(
+  ///   '/users',
+  ///   responseModel: UserModel(),
+  ///   requestType: RequestType.GET,
+  /// );
   @override
   Future<IResponseModel<R?>?>
       sendRequest<T extends IDioNexusNetworkModel<T>, R>(
@@ -111,7 +137,7 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
     options.method = requestType.name;
 
     try {
-      final response = await request(
+      final response = await request<dynamic>(
         path,
         data: data,
         queryParameters: queryParameters,
@@ -120,14 +146,13 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
         options: options,
         onSendProgress: onSendProgress,
       );
-      var _response = response.data;
-      if (_response is String && R is! NexusModel) {
-        _response = await parseJson(_response);
+      if (response.data is String) {
+        response.data = await parseJson(response.data as String);
       }
-      final result = _modelResponseData<T, R>(
+      final result = _parseResponseData<T, R>(
         responseModel,
-        _response,
-        printLogsDebugMode,
+        response.data,
+        printLogsDebugMode: printLogsDebugMode,
       );
 
       return ResponseModel<R?>(result, null);
@@ -147,25 +172,113 @@ class DioNexusManager with DioMixin implements Dio, IDioNexusManager {
     }
   }
 
+  /// Send primitive request
+  ///
+  /// [responseModel] is the model that will be used to parse the response.
+  /// [requestType] is the type of the request.
+  /// [data] is the data that will be sent to the server.
+  /// [queryParameters] is the query parameters that will be sent to the server.
+  /// [cancelToken] is the cancel token that will be used to cancel the request.
+  /// Example:
+  /// ```dart
+  /// manager.sendPrimitiveRequest<String>(
+  ///   '/notes',
+  ///   requestType: RequestType.GET,
+  /// );
+  @override
+  Future<IResponseModel<R?>?>? sendPrimitiveRequest<R>(
+    String path, {
+    required RequestType requestType,
+    Object? data,
+    Map<String, dynamic>? queryParameters,
+    CancelToken? cancelToken,
+    Options? options,
+    void Function(int p1, int p2)? onSendProgress,
+    void Function(int p1, int p2)? onReceiveProgress,
+  }) async {
+    options ??= Options();
+    options.method = requestType.name;
+
+    try {
+      final response = await request<dynamic>(
+        path,
+        data: data,
+        queryParameters: queryParameters,
+        cancelToken: cancelToken,
+        onReceiveProgress: onReceiveProgress,
+        options: options,
+        onSendProgress: onSendProgress,
+      );
+
+      final result = _parsePrimitiveResponseData<R>(
+        response.data,
+        printLogsDebugMode: printLogsDebugMode,
+      );
+
+      return ResponseModel<R?>(result, null);
+    } on DioException catch (err) {
+      return handlePrimitiveError<R>(
+        err,
+        path,
+        data: data,
+        requestType: requestType,
+        queryParameters: queryParameters,
+        cancelToken: cancelToken,
+        options: options,
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress,
+      );
+    }
+  }
+
+  /// logger interceptor
   void _addLogInterceptor() {
     if (printLogsDebugMode ?? false) interceptors.add(LogInterceptor());
   }
 
   @override
+
+  /// base header
+  ///
+  /// Example:
+  /// ```dart
+  /// manager.addBaseHeader(MapEntry('Authorization', 'Bearer $token'));
+  /// ```
   void addBaseHeader(MapEntry<String, String> mapEntry) {
     options.headers[mapEntry.key] = mapEntry.value;
   }
 
   @override
+
+  /// clear all headers
+  ///
+  /// Example:
+  /// ```dart
+  /// manager.clearAllHeaders();
+  /// ```
   void clearAllHeaders() {
     options.headers.clear();
   }
 
   @override
+
+  /// remove header
+  ///
+  /// Example:
+  /// ```dart
+  /// manager.removeHeader('Authorization');
+  /// ```
   void removeHeader(String key) {
     options.headers.remove(key);
   }
 
   @override
+
+  /// get all headers
+  ///
+  /// Example:
+  /// ```dart
+  /// manager.getAllHeaders;
+  /// ```
   Map<String, dynamic> get getAllHeaders => options.headers;
 }

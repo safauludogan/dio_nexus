@@ -5,13 +5,9 @@
 
 -->
 
-  
-
 # Dio Nexus
 
-[![Pub](https://img.shields.io/badge/pub-v0.2.2-blue)](https://pub.dev/packages/dio_nexus)   [![Pub](https://img.shields.io/badge/github-v0.2.2-blue%26logo%3Dgithub
-)](https://github.com/safauludogan/dio_nexus)   
-
+[![Pub](https://img.shields.io/badge/pub-v0.3.0-blue)](https://pub.dev/packages/dio_nexus) [![Pub](https://img.shields.io/badge/github-v0.3.0-blue%26logo%3Dgithub)](https://github.com/safauludogan/dio_nexus)
 
 This library is a network management layer built on top of Dio.
 
@@ -19,13 +15,10 @@ This library is a network management layer built on top of Dio.
 - It converts generated exceptions into its own exception types and then returns these exceptions to you.
 - It automatically sends a refresh token request using the refresh token.
 
-
 ## Getting started
 
-  
 ### 🎉 **Add dependency**
 
- 
 You can use the command to add dio as a dependency with the latest stable version:
 
 ```dart
@@ -47,7 +40,7 @@ We start by initialize the library. Here you can give these features to your pro
 ```dart
 
 	import  'package:dio_nexus/dio_nexus.dart';
-  
+
 	IDioNexusManager networkManager =  DioNexusManager(
 		printLogsDebugMode:  false,
 		options:  BaseOptions(
@@ -55,24 +48,22 @@ We start by initialize the library. Here you can give these features to your pro
 			headers: {'Content-type':  'application/json'},
 			receiveTimeout:  const  Duration(seconds:  15),
 			connectTimeout:  const  Duration(seconds:  15)));
-		
-```
- 
-### **Model parser**  
 
-The `sendRequest` function in the library allows you to send requests to APIs. It takes generic types `R` and `T`.  
+```
+
+### **Model parser**
+
+The `sendRequest` function in the library allows you to send requests to APIs. It takes generic types `R` and `T`.
 
 The `R` type specifies the return type of the request. Based on the `responseModel` provided within the library, the received data from the server is automatically parsed. You will receive the desired model within the `IResponseModel`. If an error occurs, the `IResponseModel` will not return a null `IErrorModel`, but instead provide the `statusCode`, `errorMessage`, and `NetworkExceptions`.
 
-
 The `T` type indicates the model you want to parse. Your model class, representing the JSON data, should inherit from the `IDioNexusNetworkModel`. This allows the library to perform the parsing process.
 
-  ```dart
-  
-	Future<IResponseModel<R?>?> sendRequest<T  extends  IDioNexusNetworkModel<T>, R>();
-	
-```
+```dart
 
+	Future<IResponseModel<R?>?> sendRequest<T  extends  IDioNexusNetworkModel<T>, R>();
+
+```
 
 ### **Refresh token**
 
@@ -92,7 +83,7 @@ Use refresh Token for expired token. In case of Authentication fail, the refresh
 			headers: {NetworkHeadersEnum.ContentType.value:  "application/json"},
 			receiveTimeout:  const  Duration(seconds:  15),
 			connectTimeout:  const  Duration(seconds:  15)));
-		
+
 ```
 
 ### 🎉 **Locale**
@@ -112,13 +103,13 @@ It supports Turkish and English. Locale("tr) and Locale("en")
 		networkConnection:  NetworkConnection(
 		context: context,
 		snackbarDuration:  const  Duration(seconds:  5)));
-	
+
 ```
 
 ### **Network connection**
-  
+
 In situations where there is no internet connection, it displays a toast message to notify the user about the lack of internet. By clicking the `Retry` button, the user can send another request to the previous request.
-  
+
 `snackbarDuration` to set the visibility of the snackbar that appears.
 
 ```dart
@@ -132,9 +123,10 @@ In situations where there is no internet connection, it displays a toast message
 		networkConnection:  NetworkConnection(
 		context: context,
 		snackbarDuration:  const  Duration(seconds:  5)));
-	
+
 ```
-🎉 Result: 
+
+🎉 Result:
 
 <img src="https://raw.githubusercontent.com/safauludogan/dio_nexus/master/gif/no_internet_connection_gif.gif" width="338" height="600"/>
 
@@ -153,13 +145,12 @@ To utilize the functionality, simply instantiate the class by providing the nece
 			receiveTimeout:  const  Duration(seconds:  15),
 			connectTimeout:  const  Duration(seconds:  15)),
 		timeoutToast:  TimeoutToast(showException:  true));
-	
-``` 
+
+```
 
 🎉 Result:
 
 <img src="https://github.com/safauludogan/dio_nexus/blob/master/gif/get_users_with_delay_gif.gif?raw=true" width="338" height="600"/>
-
 
 ### **Custom interceptor**
 
@@ -174,16 +165,16 @@ You can add your own custom interceptor.
 			headers: {NetworkHeadersEnum.ContentType.value:  "application/json"},
 			receiveTimeout:  const  Duration(seconds:  15),
 			connectTimeout:  const  Duration(seconds:  15)));
-			
+
 ```
 
 ## **Examples**
 
 Return Users type:
-  
-  ```dart
-  
-	Future<IResponseModel<Users?>?> getUsers() async {
+
+```dart
+
+	Future<IResponseModel<User?>?> getUsers() async {
 		IResponseModel<Users?>? response =  await nexusManager.sendRequest<Users, Users>(
 			"api/users",
 			requestType:  RequestType.GET,
@@ -191,7 +182,7 @@ Return Users type:
 		return response;
 	}
 
-```  
+```
 
 Return Model type:
 
@@ -206,9 +197,10 @@ Return Model type:
 	}
 
 ```
+
 <br>
 
-When the server does not return JSON data as a response, this is handled by the `NexusModel`. Based on the data received from the server, you provide a `T` type. This `T` type can be String, int, bool, double, or dynamic. The response will be parsed and presented to you based on the T type you specify.  
+When the server does not return JSON data as a response, this is handled by the `NexusModel`. Based on the data received from the server, you provide a `T` type. This `T` type can be String, int, bool, double, or dynamic. The response will be parsed and presented to you based on the T type you specify.
 
 ```dart
 
@@ -220,9 +212,41 @@ When the server does not return JSON data as a response, this is handled by the 
 			queryParameters: {"key": value});
 	}
 
-```  
+```
+
+### **Primitive Request**
+
+When you need to handle primitive data types directly from the API response (like String, int, bool, double, or their List variants), you can use `sendPrimitiveRequest`. This is useful when the API returns simple data types instead of complex JSON objects.
+
+```dart
+// For single primitive value
+Future<IResponseModel<String?>?> getPrimitiveString() async {
+    return await nexusManager.sendPrimitiveRequest<String>(
+        'api/string-endpoint',
+        requestType: RequestType.GET,
+    );
+}
+
+// For list of primitive values
+Future<IResponseModel<List<int>?>?> getNumberList() async {
+    return await nexusManager.sendPrimitiveRequest<List<int>>(
+        'api/numbers',
+        requestType: RequestType.GET,
+    );
+}
+
+// With query parameters
+Future<IResponseModel<bool?>?> checkStatus() async {
+    return await nexusManager.sendPrimitiveRequest<bool>(
+        'api/status',
+        requestType: RequestType.GET,
+        queryParameters: {'id': 123}
+    );
+}
+```
 
 ### **Features**
+
 When initializing `DioNexusManager`, you can provide the following properties:
 
 ```dart
@@ -236,15 +260,15 @@ Future  Function(DioException error, BaseOptions options)? onRefreshToken;
 Function? onRefreshFail;
 
 /// Set true to print requests or errors received.
-final  bool? printLogsDebugMode;  
+final  bool? printLogsDebugMode;
 
 /// When no internet connection, request again to server
 NetworkConnection? networkConnection;
-  
+
 /// Show toast when request or connection timeout.
 /// Default value is false.
 TimeoutToast? timeoutToast;
-  
+
 /// This variable is used for no internet connection.
 /// You can modify this counter when initializing [DioNexusManager].
 /// When your internet connection is lost, you can try re-requesting up to 5 times.
@@ -253,11 +277,10 @@ int maxNetworkTryCount;
 /// Get all interceptors
 Interceptors  get showInterceptors;
 
-``` 
+```
 
 ### **Licence**
 
-[![Pub](https://img.shields.io/badge/licence-MIT-blue
-)](https://github.com/LICENSE)   
+[![Pub](https://img.shields.io/badge/licence-MIT-blue)](https://github.com/LICENSE)
 
 Safa Uludoğan

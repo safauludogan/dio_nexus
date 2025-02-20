@@ -1,7 +1,7 @@
 import 'package:dio_nexus/dio_nexus.dart';
+import 'package:example/src/feature/home/model/users_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:network_manager_test/src/feature/home/model/users_model.dart';
 
 import '../../../core/utility/network/network_error_resolver.dart';
 import '../cubit/home_user_with_delay_cubit.dart';
