@@ -1,7 +1,7 @@
 import 'package:dio_nexus/dio_nexus.dart';
-import 'package:network_manager_test/src/feature/home/model/register.dart';
-import 'package:network_manager_test/src/feature/home/model/single_user_model.dart';
-import 'package:network_manager_test/src/feature/home/model/users_model.dart';
+import 'package:example/src/feature/home/model/register.dart';
+import 'package:example/src/feature/home/model/single_user_model.dart';
+import 'package:example/src/feature/home/model/users_model.dart';
 import 'IHomeService.dart';
 
 class HomeService extends IHomeService {

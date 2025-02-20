@@ -1,15 +1,15 @@
+import 'package:dio_nexus/src/languages/index.dart';
 import 'package:flutter/material.dart';
-import 'abstract/languages.dart';
-import 'language_en.dart';
-import 'language_tr.dart';
 
+/// The `AppLocalizationsDelegate` class is a `LocalizationsDelegate` implementation that provides
+/// localized resources for the application.
 class AppLocalizationsDelegate extends LocalizationsDelegate<Languages> {
-
+  /// The constructor for the `AppLocalizationsDelegate` class.
   const AppLocalizationsDelegate();
 
   @override
   bool isSupported(Locale locale) =>
-      ['en', 'tr'].contains(locale.languageCode);
+      [Language.en.name, Language.tr.name].contains(locale.languageCode);
 
   @override
   Future<Languages> load(Locale locale) => _load(locale);
@@ -27,5 +27,13 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<Languages> {
 
   @override
   bool shouldReload(LocalizationsDelegate<Languages> old) => false;
-  
+}
+
+/// The `Language` enum represents the supported languages in the application.
+enum Language {
+  /// English language.
+  en,
+
+  /// Turkish language.
+  tr,
 }

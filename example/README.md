@@ -1,4 +1,4 @@
-# network_manager_test
+# example
 
 A new Flutter project.
 

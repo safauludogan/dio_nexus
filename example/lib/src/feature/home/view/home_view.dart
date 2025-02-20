@@ -1,5 +1,5 @@
+import 'package:example/src/feature/home/view/register_unsuccess_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:network_manager_test/src/feature/home/view/register_unsuccess_widget.dart';
 import '../../viewmodel/home_viewmodel.dart';
 import 'single_user_delay_widget.dart';
 import 'single_user_widget.dart';

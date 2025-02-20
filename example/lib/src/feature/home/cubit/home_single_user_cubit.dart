@@ -16,8 +16,8 @@ class HomeSingleUserCubit extends Cubit<ResultState<SingleUser>> {
     IResponseModel<SingleUser?>? response = await homeService.getUser(2);
     if (response?.errorModel?.networkException != null) {
       emit(ResultState.error(error: response!.errorModel!.networkException!));
-    } else if (response?.model != null) {
-      emit(ResultState.data(data: response!.model!));
+    } else if (response?.data != null) {
+      emit(ResultState.data(data: response!.data!));
     } else {
       emit(const ResultState.idle());
     }
