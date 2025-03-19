@@ -9,6 +9,17 @@ import 'package:flutter/material.dart';
 
 /// The NetworkConnection class represents a connection to a network.
 class NetworkConnection {
+  /// The constructor of the NetworkConnection.
+  NetworkConnection({
+    required this.context,
+    this.snackbarDuration,
+    this.title,
+    this.label,
+    this.labelColor,
+    this.backgroundColor,
+  }) {
+    _internetConnectionManager = InternetConnectionManager();
+  }
   late IInternetConnectionManager _internetConnectionManager;
 
   ///Sets the duration of the retry widget that appears when you are not connected to the internet. After this time, the widget disappears from the screen. Default value 5 seconds
@@ -34,18 +45,6 @@ class NetworkConnection {
 
   /// The default second of the snackbar.
   final int _defaultSecond = 5;
-
-  /// The constructor of the NetworkConnection.
-  NetworkConnection({
-    required this.context,
-    this.snackbarDuration,
-    this.title,
-    this.label,
-    this.labelColor,
-    this.backgroundColor,
-  }) {
-    _internetConnectionManager = InternetConnectionManager();
-  }
 
   /// The function to check the internet connection.
   Future<bool> checkInternetConnection(
