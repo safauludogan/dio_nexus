@@ -1,3 +1,17 @@
+## 0.3.3
+
+### Improvements
+
+- Enhanced NetworkConnection with required BuildContext parameter
+- Added custom logger with multiple log levels (Verbose, Debug, Info, Warning, Error, WTF)
+- Improved SnackBar handling for network connectivity feedback
+- Added retry functionality with timeout for network requests
+
+### Dependencies
+
+- Updated dio to ^5.8.0+1
+- Added logger ^1.1.0 for better debugging
+
 ## 0.3.2
 
 ### Breaking Changes
