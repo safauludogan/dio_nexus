@@ -26,7 +26,7 @@ class CustomLogger {
     switch (_loggerLevel) {
       /// [Verbose] is a variable that is used to log messages.
       case LoggerLevel.Verbose:
-        logger.t(_data);
+        logger.v(_data);
 
       /// [Debug] is a variable that is used to log messages.
       case LoggerLevel.Debug:
@@ -46,7 +46,7 @@ class CustomLogger {
 
       /// [WTF] is a variable that is used to log messages.
       case LoggerLevel.WTF:
-        logger.f(_data);
+        logger.v(_data);
     }
   }
 }
