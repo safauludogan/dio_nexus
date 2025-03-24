@@ -1,3 +1,7 @@
+## 0.3.3+1
+
+- ResponseModel and IResponseModel exported
+
 ## 0.3.3
 
 ### Improvements
