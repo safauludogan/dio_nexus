@@ -6,7 +6,7 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.6.0
+  sdk: ^3.9.2
 
 dependencies:
   flutter:
@@ -14,15 +14,15 @@ dependencies:
   cupertino_icons: ^1.0.8
   dio_nexus:
     path: ../
-  dio: ^5.7.0
-  flutter_bloc: ^8.1.6
+  dio: ^5.9.0
+  flutter_bloc: ^9.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^5.0.0
-  mockito: ^5.4.5
-  build_runner: ^2.4.15
+  flutter_lints: ^6.0.0
+  mockito: ^5.6.1
+  build_runner: ^2.10.4
 
 flutter:
   uses-material-design: true

@@ -13,7 +13,10 @@ class NetworkManager {
         interceptor: MyInterceptor(),
         options: BaseOptions(
             baseUrl: "https://reqres.in/",
-            headers: {'Content-type': 'application/json'},
+            headers: {
+              'Content-type': 'application/json',
+              'x-api-key': 'reqres-free-v1',
+            },
             receiveTimeout: const Duration(seconds: 15),
             connectTimeout: const Duration(seconds: 15)),
         locale: const Locale('tr'),

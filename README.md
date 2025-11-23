@@ -7,7 +7,7 @@
 
 # Dio Nexus
 
-[![Pub](https://img.shields.io/badge/pub-v0.3.3+1-blue)](https://pub.dev/packages/dio_nexus) [![Pub](https://img.shields.io/badge/github-v0.3.3+1-blue%26logo%3Dgithub)](https://github.com/safauludogan/dio_nexus)
+[![Pub](https://img.shields.io/badge/pub-v0.3.3+2-blue)](https://pub.dev/packages/dio_nexus) [![Pub](https://img.shields.io/badge/github-v0.3.3+2-blue%26logo%3Dgithub)](https://github.com/safauludogan/dio_nexus)
 
 This library is a network management layer built on top of Dio.
 
