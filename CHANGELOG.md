@@ -1,3 +1,8 @@
+## 0.3.3+2
+
+- Updated SDK constraints in pubspec.yaml to support Dart 3.9.2.
+- Libraries update
+
 ## 0.3.3+1
 
 - ResponseModel and IResponseModel exported
